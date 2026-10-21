@@ -141,3 +141,7 @@ pytest -v
 The unit tests use small hand-made records with known answers and need no database. They cover the SRI input and calculation, the sleep summaries per shift, and the shift-block analysis, including the edge cases for nights without a main sleep episode.
 
 `pytest -v` also runs a data test on the generated CSV files, which checks that no sleep episode overlaps any of the worker's scheduled shifts.
+
+## License
+
+MIT, see [LICENSE](LICENSE).
