@@ -10,34 +10,22 @@ uvicorn main:app --reload
 import os # os.getenv() haalt 1 vd waarden van de variabelen op in python (van .env)
 import psycopg2
 from psycopg2.extras import RealDictCursor # Omdat jij RealDictCursor gebruikt:is ieder element in die lijst een dictionary-achtig RealDictRow:
-from dotenv import load_dotenv # leest .env bestand en laadt variables
 from fastapi import FastAPI, HTTPException
+from db import get_connection
+
 import numpy as np
 from datetime import datetime, timedelta, time
 from sleep_metrics.calculate_sri import calculate_sri, build_sri_input
 from sleep_metrics.summarize_sleep import summarize_by_linked_shift
 from sleep_metrics.shift_analysis import build_sleep_by_shift, summarize_by_day_in_block, count_short_sleep, compute_diff_vs_off
 
-load_dotenv()
+# load_dotenv()
 
-DB_CONFIG = {
-    "host": os.getenv("DB_HOST"),
-    "dbname": os.getenv("DB_NAME"),
-    "user": os.getenv("DB_USER"),
-    "password": os.getenv("DB_PASSWORD"),
-    "port": os.getenv("DB_PORT"),                    
-            
-}
 
 # Sleep shorter than this threshold (in hours) counts as short sleep.
 SHORT_SLEEP_THRESHOLD_HOURS = 6
 
-
-def get_connection():
-    conn = psycopg2.connect(**DB_CONFIG) # **DB_CONFIG neemt de dictionary en geeft de waarden als named args door aan psycopg2.connect()
-    return conn
-
-
+# FastAPI
 app = FastAPI()
 
 
