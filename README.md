@@ -14,7 +14,8 @@ The project runs on a fully synthetic workforce. It is a portfolio project cover
 | Unit tests for the analysis functions | Done |
 | Personalised roster evaluation | Next |
 | Constraint-based roster optimisation | Planned |
-| Load script, Docker, CI/CD | Planned |
+| Load script | Done |
+| Docker, CI/CD | Planned |
 
 ## Project structure
 
@@ -22,6 +23,7 @@ The project runs on a fully synthetic workforce. It is a portfolio project cover
 human-centered-shift-scheduling/
 ├── api/
 │   ├── main.py                 # FastAPI app: queries and endpoints
+│   ├── db.py                   # shared database connection
 │   ├── .env.example            # database settings template
 │   └── sleep_metrics/
 │       ├── calculate_sri.py    # Sleep Regularity Index
@@ -37,6 +39,7 @@ human-centered-shift-scheduling/
 ├── schemas/
 │   └── hcss_schema.sql         # PostgreSQL schema
 ├── tests/                      # unit tests (pytest)
+├── load_script.py              # loads the CSV files into PostgreSQL
 ├── requirements.txt
 └── pytest.ini
 ```
@@ -57,22 +60,27 @@ Requirements: Python 3.10 and PostgreSQL.
 
 ## Loading the data
 
-The CSV files in data/ are already generated. They can currently be imported manually using pgAdmin's Import/Export functionality, with headers enabled and empty values interpreted as NULL.
+The CSV files in `data/` are already generated. Load them into an empty database (with the schema already created) from the project root:
 
-Load the files in the following order, because the other tables refer to workers:
+```
+python load_script.py
+```
+
+The script reads the database settings from `api/.env`, loads the four CSV files with PostgreSQL `COPY`, and runs everything in one transaction. It stops without changes if any target table already contains data.
+
+The script loads the files in this order, because the other tables refer to `workers`:
 
 | CSV file | Table | Note |
 |---|---|---|
 | `workers_with_teams.csv` | `workers` | |
 | `worker_profiles.csv` | `worker_profiles` | |
-| `historical_assignments.csv` | `shift_assignments` | The CSV column `date` maps to `shift_date`: rename it in the CSV header or match the columns manually in pgAdmin's import dialog. |
+| `historical_assignments.csv` | `shift_assignments` | The CSV column `date` maps to `shift_date`.|
 | `historical_sleep.csv` | `historical_sleep` | empty values are `NULL` |
 
 Not loaded into the database:
 - `workers.csv`: intermediate output of the worker generator (without teams).
 - `latent_sleep_profiles.csv` and `historical_sleep_ground_truth.csv`: the latent "truth" of the generator. These are kept for validation only (see "Data and reproducibility").
 
-A load script that does this in one command is planned.
 
 ## Running the API
 
