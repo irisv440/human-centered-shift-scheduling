@@ -213,9 +213,9 @@ def main():
         # PREVIOUS roster date.
         
         # Itererateover the days
-        for i, assignment in worker_roster.iterrows(): #worker_roster = 1 
+        for i, assignment in worker_roster.iterrows():
             sleep_date = assignment["date"]
-            current_shift = assignment["shift_type"] # zelfde rij, voor een eerdere rij moet je met .loc[i - x, "col_name"] werken
+            current_shift = assignment["shift_type"]
 
             previous_shift = (
                 worker_roster.loc[i - 1, "shift_type"]

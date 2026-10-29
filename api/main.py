@@ -38,35 +38,42 @@ def get_worker(worker_id: str):
     conn = get_connection()
     cur = conn.cursor(cursor_factory=RealDictCursor) #RealDictCursor geeft diezelfde PostgreSQL-rij terug mét de kolomnamen:
     
-    cur.execute(
-        "SELECT worker_id, role, contract_hours_week, team FROM workers WHERE worker_id = %s",
-        (worker_id,)
-    )
+    try:
+        cur.execute(
+            "SELECT worker_id, role, contract_hours_week, team FROM workers WHERE worker_id = %s",
+            (worker_id,)
+        )
+        
+        worker = cur.fetchone()
+        
+        if worker is None:
+            raise HTTPException(status_code=404, detail='Worker not found.')
+            
+        return worker
     
-    worker = cur.fetchone()
+    finally:
+        cur.close()
+        conn.close()
     
-    cur.close()
-    conn.close()
-    
-    if worker is None:
-        raise HTTPException(status_code=404, detail='Worker not found.')
-    
-    return worker
 
     
 @app.get("/workers")
 def get_workers():
     conn = get_connection()
     cur = conn.cursor(cursor_factory=RealDictCursor)
-    cur.execute(
-        "SELECT worker_id, role, contract_hours_week, team FROM workers"
-    )
     
-    workers = cur.fetchall()
-    cur.close()
-    conn.close()
+    try:
+        cur.execute(
+            "SELECT worker_id, role, contract_hours_week, team FROM workers"
+        )
+        
+        workers = cur.fetchall()
+
+        return workers
     
-    return workers
+    finally:
+        cur.close()
+        conn.close()
 
 @app.get("/sleep/{worker_id}")
 def get_sleep(worker_id: str):
@@ -259,7 +266,8 @@ def get_shift_sleep(worker_id: str):
             INNER JOIN historical_sleep AS h
             ON s.worker_id=h.worker_id
                 AND s.shift_date=h.linked_shift_date
-            WHERE s.worker_id = %s 
+            WHERE s.worker_id = %s
+            ORDER BY s.shift_date ASC;
             """
             ,
             (worker_id,)
@@ -423,7 +431,6 @@ def sleep_regularity(worker_id: str):
         conn.close()
         
         
-# TEST
 @app.get("/db-test")
 def test_database():
     conn = get_connection()

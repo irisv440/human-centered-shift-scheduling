@@ -9,8 +9,12 @@ venv/
 
 # Folders
 /literature/
+/evaluator/
+/validation/
 
 # Tests
+/tests/test_estimate.py
+/tests/test_estimate_lmm.py
 .pytest_cache/
 .coverage
 htmlcov/
