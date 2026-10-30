@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:18
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: shift_scheduling
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - hcss_data:/var/lib/postgresql
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    depends_on:
+      - db
+
+volumes:
+  hcss_data:
+    external: true
+    name: f616bd12862c3fe6cb01e852e917ea906e622a68b61ca3e2f8d244847caaaf84
