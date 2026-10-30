@@ -23,5 +23,3 @@ services:
 
 volumes:
   hcss_data:
-    external: true
-    name: f616bd12862c3fe6cb01e852e917ea906e622a68b61ca3e2f8d244847caaaf84
