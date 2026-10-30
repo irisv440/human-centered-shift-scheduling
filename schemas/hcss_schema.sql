@@ -2,7 +2,6 @@
 -- PostgreSQL database dump
 --
 
-\restrict XM5TPkDlONcKvZj32aOdVICOFkBzhpWUIlom4tDKR3eq2S6fp0XEqpYIpdMF4Z0
 
 -- Dumped from database version 18.6
 -- Dumped by pg_dump version 18.6
@@ -27,7 +26,7 @@ SET default_table_access_method = heap;
 
 --
 -- TOC entry 221 (class 1259 OID 16458)
--- Name: historical_sleep; Type: TABLE; Schema: public; Owner: postgres
+-- Name: historical_sleep; Type: TABLE; Schema: public;
 --
 
 CREATE TABLE public.historical_sleep (
@@ -43,11 +42,10 @@ CREATE TABLE public.historical_sleep (
 );
 
 
-ALTER TABLE public.historical_sleep OWNER TO postgres;
 
 --
 -- TOC entry 220 (class 1259 OID 16398)
--- Name: shift_assignments; Type: TABLE; Schema: public; Owner: postgres
+-- Name: shift_assignments; Type: TABLE; Schema: public;
 --
 
 CREATE TABLE public.shift_assignments (
@@ -61,11 +59,10 @@ CREATE TABLE public.shift_assignments (
 );
 
 
-ALTER TABLE public.shift_assignments OWNER TO postgres;
 
 --
 -- TOC entry 222 (class 1259 OID 16480)
--- Name: worker_profiles; Type: TABLE; Schema: public; Owner: postgres
+-- Name: worker_profiles; Type: TABLE; Schema: public;
 --
 
 CREATE TABLE public.worker_profiles (
@@ -74,11 +71,10 @@ CREATE TABLE public.worker_profiles (
 );
 
 
-ALTER TABLE public.worker_profiles OWNER TO postgres;
 
 --
 -- TOC entry 219 (class 1259 OID 16389)
--- Name: workers; Type: TABLE; Schema: public; Owner: postgres
+-- Name: workers; Type: TABLE; Schema: public;
 --
 
 CREATE TABLE public.workers (
@@ -89,11 +85,10 @@ CREATE TABLE public.workers (
 );
 
 
-ALTER TABLE public.workers OWNER TO postgres;
 
 --
 -- TOC entry 4872 (class 2606 OID 16474)
--- Name: historical_sleep historical_sleep_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: historical_sleep historical_sleep_pkey; Type: CONSTRAINT; Schema: public;
 --
 
 ALTER TABLE ONLY public.historical_sleep
@@ -102,7 +97,7 @@ ALTER TABLE ONLY public.historical_sleep
 
 --
 -- TOC entry 4870 (class 2606 OID 16407)
--- Name: shift_assignments shift_assignments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: shift_assignments shift_assignments_pkey; Type: CONSTRAINT; Schema: public;
 --
 
 ALTER TABLE ONLY public.shift_assignments
@@ -111,7 +106,7 @@ ALTER TABLE ONLY public.shift_assignments
 
 --
 -- TOC entry 4874 (class 2606 OID 16486)
--- Name: worker_profiles worker_profiles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: worker_profiles worker_profiles_pkey; Type: CONSTRAINT; Schema: public;
 --
 
 ALTER TABLE ONLY public.worker_profiles
@@ -120,7 +115,7 @@ ALTER TABLE ONLY public.worker_profiles
 
 --
 -- TOC entry 4868 (class 2606 OID 16397)
--- Name: workers workers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: workers workers_pkey; Type: CONSTRAINT; Schema: public;
 --
 
 ALTER TABLE ONLY public.workers
@@ -129,7 +124,7 @@ ALTER TABLE ONLY public.workers
 
 --
 -- TOC entry 4876 (class 2606 OID 16475)
--- Name: historical_sleep historical_sleep_worker_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: historical_sleep historical_sleep_worker_id_fkey; Type: FK CONSTRAINT; Schema: public;
 --
 
 ALTER TABLE ONLY public.historical_sleep
@@ -138,7 +133,7 @@ ALTER TABLE ONLY public.historical_sleep
 
 --
 -- TOC entry 4875 (class 2606 OID 16408)
--- Name: shift_assignments shift_assignments_worker_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: shift_assignments shift_assignments_worker_id_fkey; Type: FK CONSTRAINT; Schema: public;
 --
 
 ALTER TABLE ONLY public.shift_assignments
@@ -147,7 +142,7 @@ ALTER TABLE ONLY public.shift_assignments
 
 --
 -- TOC entry 4877 (class 2606 OID 16487)
--- Name: worker_profiles worker_profiles_worker_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: worker_profiles worker_profiles_worker_id_fkey; Type: FK CONSTRAINT; Schema: public;
 --
 
 ALTER TABLE ONLY public.worker_profiles
@@ -160,5 +155,4 @@ ALTER TABLE ONLY public.worker_profiles
 -- PostgreSQL database dump complete
 --
 
-\unrestrict XM5TPkDlONcKvZj32aOdVICOFkBzhpWUIlom4tDKR3eq2S6fp0XEqpYIpdMF4Z0
 
