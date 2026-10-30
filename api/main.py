@@ -7,9 +7,9 @@ uvicorn main:app --reload
 @author: irisv
 """
 
-import os # os.getenv() haalt 1 vd waarden van de variabelen op in python (van .env)
+import os 
 import psycopg2
-from psycopg2.extras import RealDictCursor # Omdat jij RealDictCursor gebruikt:is ieder element in die lijst een dictionary-achtig RealDictRow:
+from psycopg2.extras import RealDictCursor 
 from fastapi import FastAPI, HTTPException
 from db import get_connection
 
@@ -18,8 +18,6 @@ from datetime import datetime, timedelta, time
 from sleep_metrics.calculate_sri import calculate_sri, build_sri_input
 from sleep_metrics.summarize_sleep import summarize_by_linked_shift
 from sleep_metrics.shift_analysis import build_sleep_by_shift, summarize_by_day_in_block, count_short_sleep, compute_diff_vs_off
-
-# load_dotenv()
 
 
 # Sleep shorter than this threshold (in hours) counts as short sleep.
@@ -33,7 +31,12 @@ app = FastAPI()
 def root():
     return{"message": "API is running."}
 
-@app.get("/workers/{worker_id}")
+@app.get(
+    "/workers/{worker_id}",
+    responses={
+        404: {"description": "Worker not found"}
+    }
+)
 def get_worker(worker_id: str):
     conn = get_connection()
     cur = conn.cursor(cursor_factory=RealDictCursor) #RealDictCursor geeft diezelfde PostgreSQL-rij terug mét de kolomnamen:
@@ -75,7 +78,13 @@ def get_workers():
         cur.close()
         conn.close()
 
-@app.get("/sleep/{worker_id}")
+
+@app.get(
+    "/sleep/{worker_id}",
+    responses={
+        404: {"description": "Worker not found"}
+    }
+)
 def get_sleep(worker_id: str):
     conn = get_connection()
     cur = conn.cursor(cursor_factory = RealDictCursor)
@@ -111,7 +120,13 @@ def get_sleep(worker_id: str):
         cur.close()
         conn.close()
     
-@app.get("/roster/{worker_id}")
+
+@app.get(
+    "/roster/{worker_id}",
+    responses={
+        404: {"description": "Worker not found"}
+    }
+)
 def get_roster(worker_id: str):
     conn = get_connection()
     cur = conn.cursor(cursor_factory = RealDictCursor)
@@ -135,12 +150,18 @@ def get_roster(worker_id: str):
         roster_records = cur.fetchall()
         return roster_records
     
-    finally: # always close the connection
+    finally: 
         
         cur.close()
         conn.close()
         
-@app.get("/sleep-summary/{worker_id}")
+
+@app.get(
+    "/sleep-summary/{worker_id}",
+    responses={
+        404: {"description": "Worker not found"}
+    }
+)
 def get_sleep_summary(worker_id: str):
     conn = get_connection()
     cur = conn.cursor(cursor_factory = RealDictCursor)
@@ -206,7 +227,13 @@ def get_sleep_summary(worker_id: str):
         cur.close()
         conn.close()
         
-@app.get("/sleep-summary-by-shift/{worker_id}")
+
+@app.get(
+    "/sleep-summary-by-shift/{worker_id}",
+    responses={
+        404: {"description": "Worker not found"}
+    }
+)
 def get_sleep_summary_by_shift(worker_id: str):
     conn = get_connection()
     cur = conn.cursor(cursor_factory = RealDictCursor)
@@ -240,7 +267,13 @@ def get_sleep_summary_by_shift(worker_id: str):
         cur.close()
         conn.close()
 
-@app.get("/shift-sleep/{worker_id}")
+
+@app.get(
+    "/shift-sleep/{worker_id}",
+    responses={
+        404: {"description": "Worker not found"}
+    }
+)
 def get_shift_sleep(worker_id: str):
     conn = get_connection()
     cur = conn.cursor(cursor_factory=RealDictCursor)
@@ -282,7 +315,13 @@ def get_shift_sleep(worker_id: str):
         cur.close()
         conn.close()
         
-@app.get("/shift-sleep-analysis/{worker_id}")
+
+@app.get(
+    "/shift-sleep-analysis/{worker_id}",
+    responses={
+        404: {"description": "Worker not found"}
+    }
+)
 def shift_sleep_analyses(worker_id: str): 
     conn = get_connection()
     cur = conn.cursor(cursor_factory=RealDictCursor)
@@ -384,14 +423,34 @@ def shift_sleep_analyses(worker_id: str):
     finally:
         cur.close()
         conn.close()
-        
 
-@app.get("/sleep-regularity/{worker_id}")
+@app.get(
+    "/sleep-regularity/{worker_id}",
+    responses={
+        404: {"description": "Worker not found or no sleep records available"},
+        422: {"description": "SRI calculation could not be performed"}
+    }
+)
 def sleep_regularity(worker_id: str):
     conn = get_connection()
     cur = conn.cursor(cursor_factory=RealDictCursor)
 
     try:
+        
+        cur.execute(
+            "SELECT worker_id FROM workers WHERE worker_id = %s",
+            (worker_id,)
+            
+            )
+        
+        worker = cur.fetchone() # try to catch worker_id (if worker exists)
+        
+        if worker is None:
+            raise HTTPException(status_code=404, detail='Worker not found.')
+            
+        # ============================================================
+        # Query to get the timing of sleep in order to calculate SRI
+        # ============================================================ 
     
         cur.execute(
             """
