@@ -170,7 +170,7 @@ Interactive documentation is then available at `http://127.0.0.1:8000/docs`.
 
 ## Data and reproducibility
 
-All data is synthetic: 30 workers in 4 teams on a 28-day rotating early/late/night/off cycle, with 84 days of history (25 May to 16 August 2026).
+All data is synthetic: 30 workers in 4 teams on a 28-day rotating early/late/night/off cycle, with 84 days of history.
 
 The generators run in this order, from the project root:
 
