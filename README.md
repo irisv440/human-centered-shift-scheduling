@@ -14,8 +14,8 @@ The project runs on a fully synthetic workforce. It is a portfolio project cover
 | FastAPI with sleep and shift analyses | Done |
 | Unit tests for the analysis functions | Done |
 | GitHub Actions CI (pytest) | Done |
-| Docker Compose (PostgreSQL + FastAPI) | Done — local setup tested |
-| Automatic database initialization | Planned |
+| Docker Compose (PostgreSQL + FastAPI) | Done — tested locally |
+| Automatic database initialization | Done — tested locally |
 | Personalised roster evaluation | Next |
 | Constraint-based roster optimisation | Planned |
 
@@ -46,9 +46,9 @@ human-centered-shift-scheduling/
 ├── schemas/
 │   └── hcss_schema.sql         # PostgreSQL schema
 ├── tests/                      # unit tests (pytest)
-├── Dockerfile                  # FastAPI Docker image (Python 3.10)
-├── compose.yaml                # PostgreSQL + FastAPI services
-├── load_script.py              # loads the CSV files into PostgreSQL
+├── Dockerfile                  # Python image for API and CSV seeding
+├── compose.yaml                # PostgreSQL, seed and API services
+├── load_script.py              # loads CSV data; skips already populated databases
 ├── requirements.txt
 └── pytest.ini
 ```
@@ -57,31 +57,41 @@ human-centered-shift-scheduling/
 
 Choose either a local Python/PostgreSQL setup or Docker Compose. Both use the same database schema and CSV data.
 
-Create `api/.env` from `api/.env.example` and supply your own database settings. Do not commit `api/.env` (it contains credentials).
+Create `api/.env` from `api/.env.example` and supply your database settings. Do not commit `api/.env`, as it contains credentials.
 
-For a **local API**, use the hostname and port of your PostgreSQL instance. For a **Docker Compose setup**, keep `DB_HOST=localhost` and set `DB_PORT=5433` in `api/.env` when running the data-loading script *from your computer*. Compose overrides these values for the API container, which connects to `db:5432`. The `DB_USER` and `DB_PASSWORD` values must match the database credentials; with the current Compose configuration, use `DB_USER=postgres`.
+For Docker Compose, use `DB_NAME=shift_scheduling` and `DB_USER=postgres`, with a password of your choice. Compose configures the API and seed containers to connect to PostgreSQL at `db:5432`.
+
+For a local Python setup, configure `DB_HOST` and `DB_PORT` to match the PostgreSQL instance you want to connect to.
 
 ### Option A — Run with Docker Compose
 
-**Requirements:** Docker Desktop (or Docker Engine with Docker Compose). Python 3.10 is also needed on your computer for the current manual CSV-loading step.
+**Requirements:** Docker Desktop (or Docker Engine with Docker Compose). No separate local Python or PostgreSQL installation is required.
 
-From the project root, start PostgreSQL and FastAPI:
+From the project root, run:
 
 ```bash
 docker compose --env-file api/.env up -d --build
 ```
 
-Docker Compose starts two services: `db` (PostgreSQL 18, exposed on host port 5433) and `api` (FastAPI, exposed on host port 8000). Once the database has been populated, Swagger is available at <http://localhost:8000/docs>.
+Docker Compose manages three services:
 
-**Fresh installation:** automatic schema creation and CSV loading are **not yet implemented**. Starting Compose with a new volume creates the `shift_scheduling` database, but not its HCSS tables or records. Follow [Loading the data](#loading-the-data) below to create the schema and import the CSV files. Until then, endpoints that query those tables will not work.
+- `db`: PostgreSQL 18, exposed on host port 5433.
+- `seed`: loads the CSV data into PostgreSQL and exits after successful completion.
+- `api`: FastAPI, exposed on host port 8000.
 
-**Existing local database volume:** the setup was tested using an existing Docker volume through a Git-ignored `compose.local.yaml` override. That file is specific to the developer's machine and is not needed for a fresh installation. If you already have a compatible volume and a local override, use:
+**Fresh installation:** On first startup with an empty PostgreSQL data volume, the database is created and `schemas/hcss_schema.sql` automatically creates the four HCSS tables. The `seed` service then imports the CSV files from `data/`. FastAPI starts only after the import completes successfully.
+
+**Subsequent startups:** When all four tables already contain data, the load script skips the import without raising an error. Existing database data are preserved.
+
+Once the API is running, Swagger is available at http://localhost:8000/docs.
+
+**Existing developer database volume:** A Git-ignored `compose.local.yaml` can be used to reference an existing PostgreSQL Docker volume:
 
 ```bash
 docker compose --env-file api/.env -f compose.yaml -f compose.local.yaml up -d --build
 ```
 
-Stop the services with `docker compose --env-file api/.env down` (include the two `-f` options above when using the local override). `down` does not delete named database volumes unless explicitly requested with `-v`.
+Stop the services with `docker compose --env-file api/.env down` (include the additional `-f` options when using the local override). Named database volumes are preserved unless explicitly removed, for example using `down -v`.
 
 ### Option B — Run locally without Docker Compose
 
@@ -97,24 +107,33 @@ Create a PostgreSQL database named `shift_scheduling` (or configure another name
 
 ## Loading the data
 
-The CSV files in `data/` are already generated. First create the tables in your empty `shift_scheduling` database using `schemas/hcss_schema.sql`.
+**With Docker Compose, schema creation and CSV loading are automatic.** The following manual instructions are intended for a local PostgreSQL setup or for development and troubleshooting.
 
-For example, with PostgreSQL's `psql` client installed on your computer:
+The CSV files in `data/` are already generated. First create the HCSS tables in an empty PostgreSQL database using `schemas/hcss_schema.sql`.
+
+For example, with PostgreSQL's `psql` client installed:
 
 ```bash
-# Docker Compose database (host port 5433)
-psql -h localhost -p 5433 -U postgres -d shift_scheduling -f schemas/hcss_schema.sql
+psql -h localhost -p 5432 -U postgres -d shift_scheduling -f schemas/hcss_schema.sql
 ```
 
-For a locally installed PostgreSQL server, use its actual host and port instead.
+Adjust the hostname, port, username and database name to match your local PostgreSQL configuration.
 
-Then load the CSV files from the project root (requires the Python dependencies and valid settings in `api/.env`):
+Then load the CSV files from the project root:
 
 ```bash
 python load_script.py
 ```
 
-The script reads the database settings from `api/.env`, loads the four CSV files with PostgreSQL `COPY`, and runs everything in one transaction. It stops without changes if any target table already contains data.
+The script uses the database settings from `api/.env` and imports all four CSV files using PostgreSQL `COPY`, within a single transaction.
+
+Before importing, the script checks the four target tables:
+
+- **All tables empty:** perform the import.
+- **All tables populated:** skip the import successfully.
+- **Only some tables populated:** abort the import with an error.
+
+This check detects empty versus populated tables; it does not validate whether every expected record is present.
 
 The script loads the files in this order, because the other tables refer to `workers`:
 
