@@ -10,17 +10,24 @@ The project runs on a fully synthetic workforce. It is a portfolio project cover
 |---|---|
 | Synthetic data generation (workers, roster, sleep) | Done |
 | PostgreSQL database | Done |
+| Load script | Done |
 | FastAPI with sleep and shift analyses | Done |
 | Unit tests for the analysis functions | Done |
+| GitHub Actions CI (pytest) | Done |
+| Docker Compose (PostgreSQL + FastAPI) | Done — local setup tested |
+| Automatic database initialization | Planned |
 | Personalised roster evaluation | Next |
 | Constraint-based roster optimisation | Planned |
-| Load script | Done |
-| Docker, CI/CD | Planned |
+
+
 
 ## Project structure
 
-```
+```text
 human-centered-shift-scheduling/
+├── .github/
+│   └── workflows/
+│       └── tests.yml           # GitHub Actions CI
 ├── api/
 │   ├── main.py                 # FastAPI app: queries and endpoints
 │   ├── db.py                   # shared database connection
@@ -39,30 +46,71 @@ human-centered-shift-scheduling/
 ├── schemas/
 │   └── hcss_schema.sql         # PostgreSQL schema
 ├── tests/                      # unit tests (pytest)
+├── Dockerfile                  # FastAPI Docker image (Python 3.10)
+├── compose.yaml                # PostgreSQL + FastAPI services
 ├── load_script.py              # loads the CSV files into PostgreSQL
 ├── requirements.txt
 └── pytest.ini
 ```
 
-## Installation
+## Installation and configuration
 
-Requirements: Python 3.10 and PostgreSQL.
+Choose either a local Python/PostgreSQL setup or Docker Compose. Both use the same database schema and CSV data.
 
-1. Install the Python packages:
-   ```
-   pip install -r requirements.txt
-   ```
-2. Create a database (e.g. `shift_scheduling`) and load the schema:
-   ```
-   psql -U postgres -d shift_scheduling -f schemas/hcss_schema.sql
-   ```
-3. Copy `api/.env.example` to `api/.env` and fill in your own database settings.
+Create `api/.env` from `api/.env.example` and supply your own database settings. Do not commit `api/.env` (it contains credentials).
+
+For a **local API**, use the hostname and port of your PostgreSQL instance. For a **Docker Compose setup**, keep `DB_HOST=localhost` and set `DB_PORT=5433` in `api/.env` when running the data-loading script *from your computer*. Compose overrides these values for the API container, which connects to `db:5432`. The `DB_USER` and `DB_PASSWORD` values must match the database credentials; with the current Compose configuration, use `DB_USER=postgres`.
+
+### Option A — Run with Docker Compose
+
+**Requirements:** Docker Desktop (or Docker Engine with Docker Compose). Python 3.10 is also needed on your computer for the current manual CSV-loading step.
+
+From the project root, start PostgreSQL and FastAPI:
+
+```bash
+docker compose --env-file api/.env up -d --build
+```
+
+Docker Compose starts two services: `db` (PostgreSQL 18, exposed on host port 5433) and `api` (FastAPI, exposed on host port 8000). Once the database has been populated, Swagger is available at <http://localhost:8000/docs>.
+
+**Fresh installation:** automatic schema creation and CSV loading are **not yet implemented**. Starting Compose with a new volume creates the `shift_scheduling` database, but not its HCSS tables or records. Follow [Loading the data](#loading-the-data) below to create the schema and import the CSV files. Until then, endpoints that query those tables will not work.
+
+**Existing local database volume:** the setup was tested using an existing Docker volume through a Git-ignored `compose.local.yaml` override. That file is specific to the developer's machine and is not needed for a fresh installation. If you already have a compatible volume and a local override, use:
+
+```bash
+docker compose --env-file api/.env -f compose.yaml -f compose.local.yaml up -d --build
+```
+
+Stop the services with `docker compose --env-file api/.env down` (include the two `-f` options above when using the local override). `down` does not delete named database volumes unless explicitly requested with `-v`.
+
+### Option B — Run locally without Docker Compose
+
+**Requirements:** Python 3.10 and a running PostgreSQL instance.
+
+From the project root, install the Python dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Create a PostgreSQL database named `shift_scheduling` (or configure another name in `api/.env`), then create the tables and load the data as described below. Start FastAPI using the instructions in [Running the API](#running-the-api).
 
 ## Loading the data
 
-The CSV files in `data/` are already generated. Load them into an empty database (with the schema already created) from the project root:
+The CSV files in `data/` are already generated. First create the tables in your empty `shift_scheduling` database using `schemas/hcss_schema.sql`.
 
+For example, with PostgreSQL's `psql` client installed on your computer:
+
+```bash
+# Docker Compose database (host port 5433)
+psql -h localhost -p 5433 -U postgres -d shift_scheduling -f schemas/hcss_schema.sql
 ```
+
+For a locally installed PostgreSQL server, use its actual host and port instead.
+
+Then load the CSV files from the project root (requires the Python dependencies and valid settings in `api/.env`):
+
+```bash
 python load_script.py
 ```
 
@@ -84,7 +132,7 @@ Not loaded into the database:
 
 ## Running the API
 
-From the `api/` folder:
+If using Docker Compose, the API is already started by Compose. For a local Python setup, run the following from the `api/` folder:
 
 ```
 uvicorn main:app --reload
@@ -132,7 +180,7 @@ python data_generation/generate_historical_roster.py
 python data_generation/generate_historical_sleep.py
 ```
 
-The generators use a fixed random seed (`SEED = 43`) to support reproducibility. The generated data have been checked for consistency with the existing dataset (the CSV files in data/) and PostgreSQL records. 
+Reproducibility. The generators use fixed random seeds (SEED = 42 for worker and roster generation; SEED = 43 for sleep generation) to support reproducibility. The generated data have been checked for consistency with the existing dataset (the CSV files in data/) and PostgreSQL records. 
 
 **Latent versus observable.** The generator draws each night from latent worker parameters (sleep need, variability, individual shift effects). The API only uses observable data: what a sleep tracker and a roster would provide. The latent values are stored separately (`latent_sleep_profiles.csv`, `historical_sleep_ground_truth.csv`) so that results can later be validated against the truth, without the analysis ever seeing it.
 
