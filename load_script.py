@@ -84,18 +84,28 @@ def main():
     try:
         with conn.cursor() as cursor:
 
-            # Safetycheck: stop if any target table already contains data
+            # Extended safetycheck on 2026-10-31:
+            # Handle three database states:
+            # 1. All tables empty: proceed with the CSV import.
+            # 2. All tables populated: skip the import without raising an error,
+            #    allowing the API to start normally after a restart.
+            # 3. Some tables empty and others populated: raise an error to flag
+            #    a potentially incomplete import.
+            row_counts = []
+            
             for _, table_name, _ in imports:
-                query = sql.SQL("SELECT COUNT(*) FROM {}").format( # make SQL template
-                    sql.Identifier(table_name) # quote the table name safely
+                query = sql.SQL("SELECT COUNT(*) FROM {}").format(
+                    sql.Identifier(table_name)
                 )
                 cursor.execute(query)
-
-                if cursor.fetchone()[0] != 0:
-                    raise ValueError(
-                        f"Table {table_name} is not empty. "
-                        "Import cancelled."
-                    )
+                row_counts.append(cursor.fetchone()[0])
+            
+            if all(count > 0 for count in row_counts):
+                print("Database already populated. Skipping import.")
+                return
+            
+            if any(count > 0 for count in row_counts):
+                raise ValueError("Database partially populated. Import cancelled.")
 
             # Import all CSV files in dependency order.
             for filename, table_name, columns in imports:
