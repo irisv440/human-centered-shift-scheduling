@@ -16,7 +16,7 @@ The project runs on a fully synthetic workforce. It is a portfolio project cover
 | GitHub Actions CI (pytest) | Done |
 | Docker Compose (PostgreSQL + FastAPI) | Done — tested locally |
 | Automatic database initialization | Done — tested locally |
-| Personalised roster evaluation | Next |
+| Personalised roster evaluation | In progress — interim version in `evaluator/` and `validation/` |
 | Constraint-based roster optimisation | Planned |
 
 
