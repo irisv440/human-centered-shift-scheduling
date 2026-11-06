@@ -57,7 +57,7 @@ import pandas as pd
 
 SEED = 43
 
-# Fixed duration effects; early and night effects are worker-specific.
+# Fixed duration effects; early and night effects are worker-specific, late and off are not.
 SHIFT_EFFECTS = {
     "late": {"duration": 0.2},
     "off":  {"duration": 0.7},

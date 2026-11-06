@@ -9,11 +9,16 @@ venv/
 
 # Folders
 /literature/
+/scheduler/
 
 # Scripts
-/evaluator/validity.py
+/evaluator/score_all_workers.py
+/validation/compare_rosters.py
+
 
 # Tests
+/tests/test_score_all_workers.py
+/tests/test_scheduler_model.py
 .pytest_cache/
 .coverage
 htmlcov/

@@ -103,7 +103,6 @@ if __name__ == "__main__":
     # Demonstration using fictional worker parameters.
     # These values are illustrative and are not estimated from historical data.
     # The example rosters can be modified to explore how scoring works.
-
     # Run from the project root:  python -m evaluator.roster_score
 
     # Estimates of one worker, feel free to adapt.
@@ -121,7 +120,7 @@ if __name__ == "__main__":
     
     example_roster_1 = ["early", "early", "early", "off", "off", "late", "late"]
     
-    example_roster_2 = ["off", "night"] # example: early parameters absent, but eary is not in night_type
+    example_roster_2 = ["off", "night"] # example: early parameters absent, but early is not in night_type
 
     print("Worked shifts:", example_roster_1)
     print("Linked shifts:", link_roster(example_roster_1, include_next_date=True))
