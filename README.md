@@ -43,9 +43,11 @@ human-centered-shift-scheduling/
 │   ├── generate_historical_sleep.py
 │   └── tests/
 │       └── test_sleep_shift_overlap.py   # no sleep episode overlaps any scheduled shift
+├── evaluator/                  # personalised roster evaluation (in progress)
 ├── schemas/
 │   └── hcss_schema.sql         # PostgreSQL schema
 ├── tests/                      # unit tests (pytest)
+├── validation/                 # checks of the evaluator against the generator's latent truth
 ├── Dockerfile                  # Python image for API and CSV seeding
 ├── compose.yaml                # PostgreSQL, seed and API services
 ├── load_script.py              # loads CSV data; skips already populated databases
