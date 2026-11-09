@@ -64,8 +64,10 @@ def get_rosters_from_records(records):
     Turn historical assignment records into one roster per worker.
 
     records: list of dicts, one per worker per date, with the columns of
-             data/historical_assignments.csv. Used keys: worker_id, date,
-             shift_type. Off days must be included as records.
+             data/historical_assignments.csv.
+             
+             Used keys: worker_id, date, shift_type. Off days must be included as records.
+             
              Dates must be in the format YYYY-MM-DD, so that sorting the
              text also sorts the dates.
 
@@ -85,7 +87,7 @@ def get_rosters_from_records(records):
         shifts = []
         for date, shift_type in dated_shifts:
             shifts.append(shift_type)
-        rosters[worker_id] = shifts
+        rosters[worker_id] = shifts # in rosters, 'dates' are not included anymore
 
     return rosters
 
@@ -95,6 +97,7 @@ def get_historical_patterns(rosters):
     Collect which transitions and block lengths occur in the historical roster.
 
     rosters: dict, worker_id (str) -> list of str, the shift per date.
+             
              The output of get_rosters_from_records.
 
     Returns a dict with two sets:

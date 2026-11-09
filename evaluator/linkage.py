@@ -12,7 +12,7 @@ the evaluator does not import generator code.
 
 def linked_shift(current_shift, previous_shift):
     """
-    Return the linked shift for the sleep stored on the current date.
+    Return the **linked shift** for the sleep stored on the current date.
 
     current_shift:  the shift on this date ("early", "late", "night", "off")
     previous_shift: the shift on the previous date (None on the first date)
@@ -21,9 +21,9 @@ def linked_shift(current_shift, previous_shift):
     Late and Night affect the sleep AFTER the shift, so they look at yesterday.
     """
     if current_shift == "early":
-        return "early"
+        return "early" # sleep_date is also 'early'
     if previous_shift == "night":
-        return "night"
+        return "night" # sleep_date is the date after the night shift
     if previous_shift == "late":
         return "late"
     return "off"
@@ -32,13 +32,13 @@ def link_roster(shifts, include_next_date=False):
       """
       Apply the linkage rule to one worker's roster.
 
-      shifts: list of shifts of one worker, one per date, in date order
+      shifts: list of worked shifts of one worker, one per date, in date order
               and without missing dates. Example: ["off", "early", "late"]
       include_next_date: also return the date after the last shift, because a
               Late or Night shift on the last date affects that sleep.
               The shift on that next date is unknown: assumed not Early.
 
-      Returns a list with the linked shift per date.
+      Returns a **list with the linked shift per date**.
       Same length as shifts, or one longer with include_next_date=True.
       Example: ["off", "early", "off"]
       With include_next_date=True: ["off", "early", "off", "late"]
@@ -47,7 +47,7 @@ def link_roster(shifts, include_next_date=False):
       previous_shift = None
 
       for current_shift in shifts:
-          linked_shifts.append(linked_shift(current_shift, previous_shift))
+          linked_shifts.append(linked_shift(current_shift, previous_shift)) # appends the returned linked shift that affects that nights'sleep
           previous_shift = current_shift
 
       if include_next_date and shifts:
