@@ -17,7 +17,7 @@ The project runs on a fully synthetic workforce. It is a portfolio project cover
 | Docker Compose (PostgreSQL + FastAPI) | Done — tested locally |
 | Automatic database initialization | Done — tested locally |
 | Personalised roster evaluation | In progress — interim version in `evaluator/` and `validation/` |
-| Constraint-based roster optimisation | Planned |
+| Constraint-based roster optimisation | In progress — CPMpy model with all constraints in `scheduler/`; objective still to be added |
 
 
 
@@ -46,6 +46,7 @@ human-centered-shift-scheduling/
 ├── evaluator/                  # personalised roster evaluation (in progress)
 ├── schemas/
 │   └── hcss_schema.sql         # PostgreSQL schema
+├── scheduler/                  # CPMpy roster model (in progress)
 ├── tests/                      # unit tests (pytest)
 ├── validation/                 # checks of the evaluator against the generator's latent truth
 ├── Dockerfile                  # Python image for API and CSV seeding
