@@ -75,6 +75,8 @@ def get_rosters_from_records(records):
     """
     # worker_id -> list of tuples (date, shift_type)
     dated_shifts_per_worker = {}
+    
+    # records: a list of dicts (one per row of the csv). Build a dictionary with worker_id as key and a list of (date, shift_type) tuples as value
     for record in records:
         worker_id = record["worker_id"]
         if worker_id not in dated_shifts_per_worker:

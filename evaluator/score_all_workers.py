@@ -18,7 +18,7 @@ from evaluator.roster_score import score_roster # individual scores needed to gr
 from evaluator.validity import check_roster_validity, get_historical_patterns, get_rosters_from_records # validity: individual validity FB to group all scores together
 
 
-def score_all_workers(rosters, cell_parameters, historical_patterns):
+def score_all_workers(rosters, cell_parameters, historical_patterns=None):
     """
     Score every worker's roster and check its validity.
 
@@ -30,8 +30,9 @@ def score_all_workers(rosters, cell_parameters, historical_patterns):
     cell_parameters : dict
         worker_id (str) -> that worker's estimates.
         The first element of the output of estimate_cell_parameters_lmm.
-    historical_patterns : dict
-        The output of get_historical_patterns.
+    historical_patterns : dict or None, optional
+        The output of get_historical_patterns. If None, the validity
+        check is skipped and the four validity fields are None.
 
     Returns
     -------
@@ -64,8 +65,18 @@ def score_all_workers(rosters, cell_parameters, historical_patterns):
         worker_parameters = cell_parameters[worker_id]  # dict: this worker's estimates
         
         scores = score_roster(roster_shifts, worker_parameters)  # dict with T and K, or None
-        # validity of the historical patterns, which are the same for everyone.
-        validity = check_roster_validity(roster_shifts, historical_patterns)  # dict with 4 keys
+        
+        # If historical_patterns not None: check whether the block lengths and shift transitions of the current roster are present in the historical roster
+        if historical_patterns is None:
+            # no patterns given (e.g. baseline): no validity check
+            validity = {
+                "is_extrapolation": None,
+                "unseen_transitions": None,
+                "unseen_block_lengths": None,
+                "uncertain_boundary_block_lengths": None,
+            }
+        else:
+            validity = check_roster_validity(roster_shifts, historical_patterns)  # dict with 4 keys
         
         # score_roster returns None if an estimate is missing: then T and K are both None (instead of just one)
         if scores is None:
@@ -133,6 +144,13 @@ def summarize_results(results):
       "num_nights"                          number of linked nights per worker
           -> {"mean", "min", "max"}
     A measure is None when no worker has a value for it.
+
+    Ties [Added 2026-11-10]: when several workers share the worst value, the
+    first of them in worker order is reported (a worker only replaces the
+    current worst when strictly worse). This holds for
+    worst_cumulative_diff_worker, worst_expected_short_nights_worker and
+    worst_worker in per_shift_summary. The worst value, mean and range do not
+    depend on it.
     """
     
     # With regard to T & K (see docstring): Keep only the workers who received a score.
@@ -158,7 +176,7 @@ def summarize_results(results):
                 if value is not None:
                     values_per_shift[shift_type][measure].append((row["worker_id"], value))
 
-    # Added 2026-11-09: per linked shift type and per measure: mean, lowest and highest over workers
+    # Per linked shift type and per measure: mean, lowest and highest over workers
     per_shift_statistics = {}
     for shift_type in ("off", "early", "late", "night"):
         per_shift_statistics[shift_type] = {}
@@ -184,7 +202,7 @@ def summarize_results(results):
                 "highest": highest_value,
             }
 
-    # [Added 2026-11-09] per linked shift type and per measure: mean, worst worker and range
+    # Per linked shift type and per measure: mean, worst worker and range
     # T measures: worst = lowest (most negative); K measures: worst = highest
     worst_is_lowest = {
         "diff_contribution_hours": True,
@@ -213,7 +231,7 @@ def summarize_results(results):
                 "range": statistics["highest"] - statistics["lowest"],
             }
 
-    # [Added 2026-11-09] per linked shift type: number of linked nights per worker (mean, minimum, maximum)
+    # Per linked shift type: number of linked nights per worker (mean, minimum, maximum)
     for shift_type in ("off", "early", "late", "night"):
         statistics = per_shift_statistics[shift_type]["num_nights"]
         if statistics is None:
@@ -294,8 +312,12 @@ if __name__ == "__main__":
 
     # Historical shifts -> one roster per worker, and the patterns for the validity flag
     assignment_records = pd.read_csv(data_dir / "historical_assignments.csv").to_dict("records") # load data
+    
+    # Get rosters as a Dictionary (one dictionary per worker)
     rosters = get_rosters_from_records(assignment_records) # first argument for score_all_workers, obligatory
-    historical_patterns = get_historical_patterns(rosters) # argument for score_all_workers, obligatory
+    
+    # Get historical patterns to check whether the (candidate) roster uses unseen transitions or block lengths
+    historical_patterns = get_historical_patterns(rosters) # argument for score_all_workers, optional (None skips the validity check)
 
     # Historical sleep -> LMM estimates per worker (the fitted model itself is not needed here)
     sleep_records = pd.read_csv(data_dir / "historical_sleep.csv").to_dict("records")

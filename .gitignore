@@ -10,9 +10,10 @@ venv/
 # Folders
 /literature/
 /docs/
-/scheduler/
+/scheduler/output/
 
 # Scripts
+/scheduler/demo_model.py
 /validation/compare_rosters.py
 
 
