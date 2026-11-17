@@ -1,8 +1,8 @@
 # Human-Centered Shift Scheduling (HCSS)
 
-HCSS analyses how shift work affects sleep, per worker, as a basis for evaluating and later adjusting rosters with the individual worker in mind.
+HCSS analyses how shift work affects sleep, per worker, and uses those estimates to evaluate rosters and to optimise them with the individual worker in mind.
 
-The project runs on a fully synthetic workforce. It is a portfolio project covering the full path from data generation to a tested API.
+The project runs on a fully synthetic workforce. It is a portfolio project covering the full path from data generation and a tested API to a personalised sleep model and an optimised roster.
 
 ## Status
 
@@ -222,7 +222,7 @@ python -m validation.compare_rosters
 
 **First result.** The candidate roster has a 28.8 % lower objective than the historical roster (51 429 versus 72 222). About two thirds of that gain comes from the penalty: the solver spreads the expected short nights more evenly across workers, while total sleep loss drops by 13 %.
 
-**Known limitation.** The historical roster follows a single fixed pattern: every work block lasts exactly 7 days, and every change of shift type goes through days off. The candidate roster breaks that pattern for 18 of the 30 workers (shorter blocks, and changes such as late to night without a day off). For those patterns the score is an extrapolation: the sleep model has never seen them. The next step is a second run restricted to the historical transitions and block lengths (planned as a switch in `scheduler/requirements_config.py`), for comparison with the unrestricted run. If most of the gain remains, it comes from which worker gets which shift, not from the new patterns, such as early to late without a day off. Forward rotation is supported by the shift-work literature, so the restricted run is a comparison, not a correction.
+**Known limitation.** The historical roster follows a single fixed pattern: every work block lasts exactly 7 days, and every change of shift type goes through days off. The candidate roster breaks that pattern for 18 of the 30 workers (shorter blocks, and changes such as late to night without a day off). For those patterns the score is an extrapolation: the sleep model has never seen them. Planned for v2: a second run restricted to the historical transitions, so that every change of shift type goes through a day off (a switch in `scheduler/requirements_config.py`), for comparison with the unrestricted run. If most of the gain remains, it comes from which worker gets which shift, not from new transitions such as early to late without a day off. Block lengths stay unrestricted, so shorter blocks remain an extrapolation. Forward rotation (early → late → night) is generally recommended in the shift-work literature, so the restricted run is a comparison, not a correction.
 
 ## Data and reproducibility
 
@@ -250,7 +250,7 @@ From the project root:
 pytest -v
 ```
 
-The unit tests use small hand-made records with known answers and need no database. They cover the SRI input and calculation, the sleep summaries per shift, and the shift-block analysis, including the edge cases for nights without a main sleep episode.
+The unit tests use small hand-made records with known answers and need no database. They cover the SRI input and calculation, the sleep summaries per shift, and the shift-block analysis, including the edge cases for nights without a main sleep episode. They also cover the evaluator: the per-worker estimates (including recovery of known parameters from simulated data for the mixed model), the linkage of sleep to shifts, the probability of a short night, the roster score and the validity check.
 
 `pytest -v` also runs a data test on the generated CSV files, which checks that no sleep episode overlaps any of the worker's scheduled shifts.
 
