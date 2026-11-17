@@ -17,7 +17,7 @@ The project runs on a fully synthetic workforce. It is a portfolio project cover
 | Docker Compose (PostgreSQL + FastAPI) | Done — tested locally |
 | Automatic database initialization | Done — tested locally |
 | Personalised roster evaluation | In progress — interim version in `evaluator/` and `validation/` |
-| Constraint-based roster optimisation | In progress — CPMpy model with all constraints in `scheduler/`; objective still to be added |
+| Constraint-based roster optimisation | In progress — CPMpy model with constraints and objective in `scheduler/`; first candidate roster solved and compared with the historical roster (see [Roster optimisation](#roster-optimisation-in-progress)) |
 
 
 
@@ -44,11 +44,21 @@ human-centered-shift-scheduling/
 │   └── tests/
 │       └── test_sleep_shift_overlap.py   # no sleep episode overlaps any scheduled shift
 ├── evaluator/                  # personalised roster evaluation (in progress)
+│   ├── estimate_lmm.py         # per-worker sleep estimates per linked shift (linear mixed model)
+│   ├── linkage.py              # links each night's sleep to a shift
+│   ├── roster_score.py         # scores one worker's roster
+│   ├── score_all_workers.py    # scores a full roster, per worker
+│   ├── objective.py            # objective of a roster (sleep loss + penalty on short nights)
+│   └── validity.py             # flags patterns that never occur in the historical roster
 ├── schemas/
 │   └── hcss_schema.sql         # PostgreSQL schema
 ├── scheduler/                  # CPMpy roster model (in progress)
+│   ├── requirements_config.py  # teams, shifts, labour rules and objective settings
+│   ├── cost_table.py           # per-worker cost tables for the solver (whole numbers)
+│   └── model.py                # CPMpy model: constraints, linkage and objective
 ├── tests/                      # unit tests (pytest)
 ├── validation/                 # checks of the evaluator against the generator's latent truth
+│   └── compare_rosters.py      # historical roster versus the candidate roster of the model
 ├── Dockerfile                  # Python image for API and CSV seeding
 ├── compose.yaml                # PostgreSQL, seed and API services
 ├── load_script.py              # loads CSV data; skips already populated databases
@@ -189,6 +199,30 @@ Interactive documentation is then available at `http://127.0.0.1:8000/docs`.
 **Difference vs Off** (`duration_diff_vs_off`). Per worker and shift type, this is the computed difference between mean sleep duration after that shift type and mean sleep duration on Off nights. It is reported together with the number of nights behind each mean. No standard error is reported, because consecutive nights of one worker are not independent.
 
 **Shift blocks** (`day_in_shift_block`). Consecutive shifts of the same type form a block, numbered day 1, 2, 3 and so on. Known limitation: blocks at the start or end of the data window may be truncated, so their day numbers can be too low.
+
+## Roster optimisation (in progress)
+
+**From sleep data to a roster.** A linear mixed model (`evaluator/estimate_lmm.py`) estimates, per worker, how long they sleep after each linked shift type, and how much that varies from night to night. From these estimates, `scheduler/cost_table.py` builds two tables per worker and shift type:
+
+- the difference in sleep versus the worker's own Off nights, in minutes;
+- the probability of a short night (under 6 hours), times 1000.
+
+**Objective.** The objective is the same in the evaluator (`evaluator/objective.py`) and in the solver (`make_objective` in `scheduler/model.py`). It adds the total sleep loss of all workers (in minutes) to a penalty for each worker whose expected number of short nights exceeds a threshold. The threshold and weight are set in `scheduler/requirements_config.py` and are still to be tuned. The solver needs whole numbers, so its objective is the evaluator's objective multiplied by 100 (up to rounding per table cell).
+
+**Constraints.** Rest of at least 11 hours between shifts, at most 7 consecutive working days, 2 days off after 7 working days, at most 168 hours per 28-day cycle, staffing per team and role, and consistency between a worker's shift and assigned team.
+
+**Running.** From the project root:
+
+```
+python -m scheduler.model
+python -m validation.compare_rosters
+```
+
+`scheduler.model` solves the model and prints the candidate roster and its objective. `validation.compare_rosters` scores the historical roster (first 28-day cycle) and the candidate roster on the same route, checks the candidate against the historical patterns, and prints both objectives. Solving takes about one to two minutes.
+
+**First result.** The candidate roster has a 28.8 % lower objective than the historical roster (51 429 versus 72 222). About two thirds of that gain comes from the penalty: the solver spreads the expected short nights more evenly across workers, while total sleep loss drops by 13 %.
+
+**Known limitation.** The historical roster follows a single fixed pattern: every work block lasts exactly 7 days, and every change of shift type goes through days off. The candidate roster breaks that pattern for 18 of the 30 workers (shorter blocks, and changes such as late to night without a day off). For those patterns the score is an extrapolation: the sleep model has never seen them. The next step is to add the historical block lengths and transitions as constraints, so that candidate and historical roster can be compared on equal terms.
 
 ## Data and reproducibility
 

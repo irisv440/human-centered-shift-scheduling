@@ -14,8 +14,6 @@ venv/
 
 # Scripts
 /scheduler/demo_model.py
-/validation/compare_rosters.py
-
 
 # Tests
 /tests/test_score_all_workers.py

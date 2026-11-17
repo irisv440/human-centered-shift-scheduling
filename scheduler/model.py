@@ -2,6 +2,9 @@
 """
 model.py
 
+CPMpy roster model: decision variables, linkage of sleep to shifts, labour and staffing
+constraints, and the objective (sleep loss plus a penalty on expected short nights).
+
 @author: irisv
 """
 
@@ -10,6 +13,11 @@ import numpy as np
 import pandas as pd
 from cpmpy.solvers.solver_interface import ExitStatus
 from pathlib import Path
+import sys
+
+# [Added 2026-11-16] Makes 'from scheduler import ...' work when running this file with F5,
+# whatever the working directory is: adds the repo root to the import path.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from scheduler import requirements_config as cf
 from scheduler import cost_table
@@ -17,20 +25,71 @@ from scheduler import cost_table
 from evaluator.estimate_lmm import estimate_cell_parameters_lmm
 
 
+def make_objective(early_linked, late_linked, night_linked, off_linked, difference_table_int, p_table_int): # [Changed 2026-11-16 18:24] off_linked added
+    """
+    Objective of the solver: same definition as compute_objective in evaluator/objective.py,
+    in whole numbers.
+
+    Per worker i, summed over the 29 linked nights:
+      sleep_loss[i]               = minus the sum of difference_table_int (minutes vs own Off night)
+      short_nights_thousandths[i] = the sum of p_table_int (expected short nights x 1000, Off included)
+      excess_thousandths[i]       = max(0, short_nights_thousandths[i] - threshold)
+
+    objective = objective_scale x sum of sleep_loss + objective_weight x sum of excess_thousandths
+
+    Threshold, scale and weight come from the config. compute_objective uses the weight
+    objective_weight / objective_scale (0.36); the solver needs whole numbers, so here the whole
+    objective is multiplied by objective_scale instead. Divide by objective_scale to compare.
+    """
+    sleep_loss = []
+
+    for i in range(cf.n_workers):
+        sleep_loss.append(-cp.sum(
+            difference_table_int[i][0] * off_linked[i, night] # Cost * off_linked yes/no --> always zero
+            + difference_table_int[i][1] * early_linked[i, night] # Cost * early_linked yes/no
+            + difference_table_int[i][2] * late_linked[i, night] # Cost * late_linked yes/no
+            + difference_table_int[i][3] * night_linked[i, night] # Cost * night_linked yes/no
+            for night in range(cf.n_days + 1)
+        ))
+
+    short_nights_thousandths = []
+    # cp.sum over the probabilities of a short night (x 1000), Off nights included
+    for i in range(cf.n_workers):
+        short_nights_thousandths.append(cp.sum(
+            p_table_int[i][0] * off_linked[i, night] # Probability * off_linked yes/no
+            + p_table_int[i][1] * early_linked[i, night] # Probability * early_linked yes/no
+            + p_table_int[i][2] * late_linked[i, night] # Probability * late_linked yes/no
+            + p_table_int[i][3] * night_linked[i, night] # Probability * night_linked yes/no
+            for night in range(cf.n_days + 1)
+        ))
+
+    excess_thousandths = []
+    # Per worker: expected short nights (thousandths) above the threshold, never below 0
+    for i in range(cf.n_workers):
+        excess_thousandths.append(cp.max([0, short_nights_thousandths[i] - cf.objective_threshold_thousandths]))
+
+    # [Changed 2026-11-16] 100 and 36 read from the config (same values) instead of typed in
+    objective = cf.objective_scale * cp.sum(sleep_loss) + cf.objective_weight * cp.sum(excess_thousandths)
+
+    return objective
 
 # Linkage rule, cpmpy variant of the linkage rule in 'linkage.py'
-def add_linkage(model, early_linked, late_linked, night_linked, shifts):
+def add_linkage(model, early_linked, late_linked, night_linked, off_linked, shifts):
     
     """
-    Linkage rule, in CPMpy terms 
+    Linkage rule, in CPMpy terms.
     Same rule as evaluator/linkage.py, now on variables:
-       night t is Early if day t is Early;
-       else Night if day t-1 was Night; else Late if day t-1 was Late; else Off.
-     Assumptions (must match link_roster): 
-        1. the day before the roster is not Late nor Night,
-     the date after the roster is not Early.
-        2. 'Off'-linked is implicit. A sleep_date is 'off'-linked when 
-        it is not early-linked, nor late- or night-linked.
+      night t is Early if day t is Early;
+      else Night if day t-1 was Night; else Late if day t-1 was Late; else Off.
+
+    Assumptions (must match link_roster):
+      - the day before the roster is not Late nor Night;
+      - the day after the roster is not Early.
+
+    [Changed 2026-11-16 18:21] Off-linked is explicit (off_linked), no longer implicit:
+    a sleep_date is Off-linked when it is not Early-, Late- or Night-linked.
+    This is enforced by "exactly one of the four linked types per worker per night"
+    (the cp.sum(...) == 1 constraint at the end of this function).
     """
     
     for i in range(cf.n_workers):
@@ -46,6 +105,11 @@ def add_linkage(model, early_linked, late_linked, night_linked, shifts):
                 model.add(late_linked[i,t] == (shifts[i,t-1] == 2) & ~early_linked[i,t])
                 # night linked
                 model.add(night_linked[i,t] == (shifts[i,t-1] == 3) & ~early_linked[i,t])
+    
+    # Exactly one of the four linked types per worker per night
+    for i in range(cf.n_workers):
+        for t in range(cf.n_days + 1):
+            model.add(cp.sum([early_linked[i,t], late_linked[i,t], night_linked[i,t], off_linked[i,t]]) == 1)
 
 
 def build_model():
@@ -75,7 +139,7 @@ def build_model():
     # 2. Main decision variables 
  
     # Shifts[i,d] denotes the shift that worker i should work on day d.
-    # 1= 'early', 2='late', 3='night, 0='off
+    # 0 = off, 1 = early, 2 = late, 3 = night (cf.SHIFT_CODES)
     shifts = cp.intvar(0,3, shape=(cf.n_workers, cf.n_days), name = 'shifts')
     
 
@@ -90,7 +154,6 @@ def build_model():
     team_shift_CP = cp.cpm_array(cf.TEAM_SHIFT)   # 4 teams x 28 days
     home_team_CP = cp.cpm_array(cf.HOME_TEAM)     # 30 workers
     shift_times_CP = cp.cpm_array(cf.SHIFT_TIMES)
-    role_CP = cp.cpm_array(cf.ROLE)
     role_np = np.array(cf.ROLE)
     
     # 3.The model 
@@ -102,10 +165,10 @@ def build_model():
     early_linked = cp.boolvar(shape=(cf.n_workers, cf.n_days + 1), name='early_linked')
     late_linked = cp.boolvar(shape=(cf.n_workers, cf.n_days + 1), name='late_linked')
     night_linked = cp.boolvar(shape=(cf.n_workers, cf.n_days + 1), name='night_linked')
-    # no specific off-linked boolvar: Off is implicit 
+    off_linked = cp.boolvar(shape=(cf.n_workers, cf.n_days + 1), name='off_linked') 
     
     # call function add_linkage: the linkage constraints are added using that definition
-    add_linkage(model, early_linked, late_linked, night_linked, shifts)
+    add_linkage(model, early_linked, late_linked, night_linked, off_linked, shifts)
     
    
     """ Constraints """
@@ -126,8 +189,8 @@ def build_model():
                 # only consecutive pairs:
                 if t1 == t2 - 1:
                     # If neither of the days is an off-day, force the 11-hour rest constraint
-                    # Start of shift on T2 + 24 (given the day difference) - end time of shift on T1
-                    # indexing changed from [shift][0] to [shift, 0] (row and column in one bracket)
+                    # Start of shift on t2 + 24 (given the day difference) - end time of shift on t1
+                    # shift_times_CP[shift, 0]: row and column in one bracket, needed to index with a variable
                     model.add( ((shifts[i,t1] != 0) & (shifts[i,t2] != 0)).implies( shift_times_CP[shifts[i,t2], 0] + 24 - shift_times_CP[shifts[i,t1], 1] >= 11))
     
 
@@ -231,23 +294,22 @@ def build_model():
     Shift on/off requests can be handled by putting constraints on assigned_team[i,t]
     
     """
-    # TO DO (planned)
-    
-    
-    
-    """ Objective 
-    
-    Objective: TODO, same definition as "evaluator/objective.py"
-    
+    # Planned, not yet implemented.
+
+
     """
-    
+    Objective: same definition as compute_objective in evaluator/objective.py (see make_objective)
+    """
+    objective = make_objective(early_linked, late_linked, night_linked, off_linked, difference_table_int, p_table_int)
+    model.minimize(objective)
+
     # 5. Return the model
-    return model, shifts, assigned_team, early_linked, late_linked, night_linked
+    return model, shifts, assigned_team, early_linked, late_linked, night_linked, off_linked, objective
 
 if __name__ == "__main__":
     # Run from the project root:  python -m scheduler.model
 
-    model, shifts, assigned_team, early_linked, late_linked, night_linked = build_model()
+    model, shifts, assigned_team, early_linked, late_linked, night_linked, off_linked, objective = build_model()
     
     model.solve()
     
@@ -256,4 +318,9 @@ if __name__ == "__main__":
     if model.status().exitstatus == ExitStatus.FEASIBLE or model.status().exitstatus == ExitStatus.OPTIMAL:
         for w in range(cf.n_workers):
             print(shifts[w,:].value())
-        
+        # Objective value in solver units (x objective_scale): not directly comparable with compute_objective
+        print("objective:", objective.value())
+        # Divided by objective_scale (100): same unit as compute_objective (minutes), so it can be
+        # compared with the historical roster of cycle 1 (72235.36 with the same integer tables)
+        print("objective / objective_scale:", objective.value() / cf.objective_scale)
+

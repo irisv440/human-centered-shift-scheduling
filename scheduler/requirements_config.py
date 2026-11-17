@@ -13,11 +13,11 @@ Each team has one supervisor and two senior operators;
 @author: irisv
 """
 
-TEAM_SIZES = {"A": 8, "B": 8, "C": 7, "D": 7}  # AMOUNT OF WORKERS PER TEAM, assigned_team uses 0–3!
+TEAM_SIZES = {"A": 8, "B": 8, "C": 7, "D": 7}  # number of workers per team; in the model, teams are coded 0-3 (see TEAM_SIZES_CODES)
 TEAM_OFFSETS = {"A": 0, "B": 7, "C": 14, "D": 21}
 
-# [Changed 2026-11-15 14:14] Derived from TEAM_SIZES instead of typed a second time,
-# so both always hold the same numbers. Result: {0: 8, 1: 8, 2: 7, 3: 7}  # 0=A, 1=B, 2=C, 3=D
+# Derived from TEAM_SIZES.
+# Result: {0: 8, 1: 8, 2: 7, 3: 7}  # 0=A, 1=B, 2=C, 3=D
 TEAM_SIZES_CODES = {}
 team_index = 0
 for team in TEAM_SIZES:  # order of TEAM_SIZES: A, B, C, D
@@ -42,19 +42,16 @@ n_teams = len(TEAM_SIZES)
 
 n_days = 28 # horizon
 cycle_length = 28
-n_cycles = n_days // cycle_length  # [Added 2026-11-15 13:40] number of full cycles in the horizon; n_days must be a multiple of cycle_length
-contract_hours = 38  # [Changed 2026-11-15 14:14] not used in the model; kept as documentation (same as contract_hours_week in the data). n_weeks removed (unused).
+n_cycles = n_days // cycle_length  # number of full cycles in the horizon; n_days must be a multiple of cycle_length
+contract_hours = 38  # not (yet) used in the model; kept as documentation (same as contract_hours_week in the data).
 n_workers = sum(TEAM_SIZES.values()) # in our example: 30 workers
 
-# [Changed 2026-11-15 13:40] Rostered maximum, separate from contract_hours:
+# Rostered maximum, separate from contract_hours:
 # the contract is 38h per week, the roster gives 42h per week (21 shifts x 8h per cycle);
 # the difference is compensated outside the roster.
 max_hours_per_week = 42
 max_hours_per_cycle = int(max_hours_per_week * (cycle_length // 7))  # 42 x 4 = 168
 
-
-# [Added 2026-11-07 22:06] Fixed team table: which shift each team has on each day of the horizon.
-# (SHIFT_CODES is defined at the top of this file.)
 
 # Same 28-day cycle as shift_for_cycle_day in data_generation/generate_historical_roster.py:
 # 7 early, 2 off, 7 late, 2 off, 7 night, 3 off.
@@ -71,6 +68,7 @@ def shift_for_cycle_day(cycle_day):
         return "night"
     return "off"
 
+# Which shift each team has on each day of the horizon.
 # TEAM_SHIFT[team_index][day], team_index 0-3 = A, B, C, D (order of TEAM_SIZES).
 # Assumption: day 0 of the horizon is cycle day 0 for team A (as on the first day of the historical roster).
 TEAM_SHIFT = []
@@ -82,7 +80,7 @@ for team in TEAM_SIZES:
         row.append(SHIFT_CODES[shift_for_cycle_day(cycle_day)]) # calls shift for cycle day
     TEAM_SHIFT.append(row)
 
-# [Changed 2026-11-14] ROLE coded as numbers instead of strings, so it can go into a cpm_array:
+# ROLE coded as numbers instead of strings, so it can go into a cpm_array:
 # 0 = supervisor, 1 = senior_operator, 2 = operator.
 ROLE = [
     0, 2, 2, 1, 1,   # W001-W005  (sup, op, op, senior, senior)
@@ -104,3 +102,17 @@ HOME_TEAM = [
     1, 2, 1, 1, 0,   # W021-W025  (B, C, B, B, A)
     2, 0, 3, 0, 3,   # W026-W030  (C, A, D, A, D)
 ]
+
+# Objective settings
+
+# Used by make_objective (scheduler/model.py) and validation/compare_rosters.py.
+# Values still to be tuned.
+# Threshold: maximum acceptable expected number of short nights per worker over the roster,
+# in thousandths of a night (10000 = 10 short nights), same unit as p_table_int.
+objective_threshold_thousandths = 10000
+
+# Weight: 0.36 minutes of sleep loss per thousandth of a short night above the threshold
+# (= 360 minutes per short night). The solver needs whole numbers, so the whole objective is
+# multiplied by 100: sleep loss in minutes x 100, plus 36 x excess in thousandths.
+objective_scale = 100
+objective_weight = 36

@@ -95,7 +95,7 @@ def to_integer_table(table, scale):
         integer_table.append(integer_row)
     return integer_table
 
-# [Added 2026-11-11] Check: T and K from the integer tables must match score_roster (up to rounding)
+# Check: T and K from the integer tables must match score_roster (up to rounding)
 def check_against_score_roster(rosters, cell_parameters, diff_table_int, p_table_int):
     """
     For each worker: compute T and K once with the tables (count of linked
@@ -127,7 +127,6 @@ if __name__ == "__main__":
     data_dir = Path(__file__).resolve().parent.parent / "data"
     sleep_records = pd.read_csv(data_dir / "historical_sleep.csv").to_dict("records")
 
-    # Fit the LMM; result (the statsmodels object) is not needed here
     # The LMM is fitted once when cost_table.py is executed. The resulting parameters are used to construct the T and K cost tables.
     cell_parameters, result = estimate_cell_parameters_lmm(sleep_records)
     
@@ -154,8 +153,8 @@ if __name__ == "__main__":
     print("\nCheck against score_roster:")
     check_against_score_roster(rosters, cell_parameters, difference_table_int, p_table_int)
     
-    ##################################################
-    # [Added 2026-11-11] Write both tables to one Excel file (two sheets), date in the file name
+    ####### to excel #########
+    # Write both tables to one Excel file (two sheets), date in the file name
     from datetime import date
 
     columns = list(cf.SHIFT_CODES)  # off, early, late, night

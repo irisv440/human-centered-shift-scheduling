@@ -49,9 +49,9 @@ def compute_objective(results, threshold_thousandths, weight):
     results : list of dict
         The output of score_all_workers, one dict per worker.
         Only these keys are used:
-          "worker_id"                               str
-          "cumulative_diff_hours"                   float or None (T, in hours)
-          "expected_short_nights_given_main_sleep"  float or None (K, in nights)
+          1. "worker_id"                               str
+          2. "cumulative_diff_hours"                   float or None (T, in hours)
+          3. "expected_short_nights_given_main_sleep"  float or None (K, in nights)
     threshold_thousandths : int or float
         The maximum acceptable expected number of short nights per worker
         over the roster, in thousandths of a night (2500 = 2.5 nights).
