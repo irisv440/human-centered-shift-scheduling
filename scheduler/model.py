@@ -15,7 +15,7 @@ from cpmpy.solvers.solver_interface import ExitStatus
 from pathlib import Path
 import sys
 
-# [Added 2026-11-16] Makes 'from scheduler import ...' work when running this file with F5,
+# Makes 'from scheduler import ...' work when running this file with F5,
 # whatever the working directory is: adds the repo root to the import path.
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
@@ -109,20 +109,14 @@ def add_linkage(model, early_linked, late_linked, night_linked, off_linked, shif
     # Exactly one of the four linked types per worker per night
     for i in range(cf.n_workers):
         for t in range(cf.n_days + 1):
+            # Exactly one must be true --> cp.sum over the decision variables == 1
             model.add(cp.sum([early_linked[i,t], late_linked[i,t], night_linked[i,t], off_linked[i,t]]) == 1)
 
 
-def build_model():
+def build_model(cell_parameters):
     
-    # 1. Prepare the data
-    
-    # Data dir
-    data_dir = Path(__file__).resolve().parent.parent / "data"
-    # Load historical sleep in order to estimate LMM parameters
-    sleep_records = pd.read_csv(data_dir / "historical_sleep.csv").to_dict("records")
-    
-    # Fit the LMM
-    cell_parameters, result = estimate_cell_parameters_lmm(sleep_records)
+    # cell_parameters: parameters of the fitted LMM, the first element of the output of
+    # estimate_cell_parameters_lmm (fitted by the caller, so the LMM is fitted only once).
     
     # Make differences table and convert the table contents into integers that represent minutes (hours * 60)
     difference_table = cost_table.make_diff_table(cell_parameters) # uses diff_vs_off_hours
@@ -136,7 +130,7 @@ def build_model():
     # p_table_int: list[list[int]]
     
     
-    # 2. Main decision variables 
+    # 1. Main decision variables 
  
     # Shifts[i,d] denotes the shift that worker i should work on day d.
     # 0 = off, 1 = early, 2 = late, 3 = night (cf.SHIFT_CODES)
@@ -156,12 +150,12 @@ def build_model():
     shift_times_CP = cp.cpm_array(cf.SHIFT_TIMES)
     role_np = np.array(cf.ROLE)
     
-    # 3.The model 
+    # 2.The model 
     
     model = cp.Model()
 
 
-    # 4.  Linkage variables  & add_linkage(model, decision variables) 
+    # 3.  Linkage variables  & add_linkage(model, decision variables) 
     early_linked = cp.boolvar(shape=(cf.n_workers, cf.n_days + 1), name='early_linked')
     late_linked = cp.boolvar(shape=(cf.n_workers, cf.n_days + 1), name='late_linked')
     night_linked = cp.boolvar(shape=(cf.n_workers, cf.n_days + 1), name='night_linked')
@@ -171,7 +165,7 @@ def build_model():
     add_linkage(model, early_linked, late_linked, night_linked, off_linked, shifts)
     
    
-    """ Constraints """
+    # 4. Constraints
        
     
     """ Rest Constraints:
@@ -300,17 +294,31 @@ def build_model():
     """
     Objective: same definition as compute_objective in evaluator/objective.py (see make_objective)
     """
+    # 5. Objective function
     objective = make_objective(early_linked, late_linked, night_linked, off_linked, difference_table_int, p_table_int)
     model.minimize(objective)
 
-    # 5. Return the model
+    # 6. Return the model
     return model, shifts, assigned_team, early_linked, late_linked, night_linked, off_linked, objective
 
 if __name__ == "__main__":
     # Run from the project root:  python -m scheduler.model
-
-    model, shifts, assigned_team, early_linked, late_linked, night_linked, off_linked, objective = build_model()
     
+    # Prepare the data
+
+    # Data dir
+    data_dir = Path(__file__).resolve().parent.parent / "data"
+    
+    # Load historical sleep in order to estimate LMM parameters
+    sleep_records = pd.read_csv(data_dir / "historical_sleep.csv").to_dict("records")
+    
+    # Fit the LMM
+    cell_parameters, result = estimate_cell_parameters_lmm(sleep_records)
+    
+    # Build the CPMpy model
+    model, shifts, assigned_team, early_linked, late_linked, night_linked, off_linked, objective = build_model(cell_parameters)
+    
+    # Solve
     model.solve()
     
     print(model.status())

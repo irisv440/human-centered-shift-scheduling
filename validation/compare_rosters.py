@@ -74,7 +74,7 @@ def build_candidate_roster(cell_parameters, historical_rosters_all):
       "candidate_objective": the output of compute_objective (minutes, same unit as the baseline),
     }
     """
-    model, shifts, assigned_team, early_linked, late_linked, night_linked, off_linked, objective = build_model()
+    model, shifts, assigned_team, early_linked, late_linked, night_linked, off_linked, objective = build_model(cell_parameters)
 
     # solve the model
     model.solve()

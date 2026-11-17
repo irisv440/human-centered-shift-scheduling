@@ -222,7 +222,7 @@ python -m validation.compare_rosters
 
 **First result.** The candidate roster has a 28.8 % lower objective than the historical roster (51 429 versus 72 222). About two thirds of that gain comes from the penalty: the solver spreads the expected short nights more evenly across workers, while total sleep loss drops by 13 %.
 
-**Known limitation.** The historical roster follows a single fixed pattern: every work block lasts exactly 7 days, and every change of shift type goes through days off. The candidate roster breaks that pattern for 18 of the 30 workers (shorter blocks, and changes such as late to night without a day off). For those patterns the score is an extrapolation: the sleep model has never seen them. The next step is to add the historical block lengths and transitions as constraints, so that candidate and historical roster can be compared on equal terms.
+**Known limitation.** The historical roster follows a single fixed pattern: every work block lasts exactly 7 days, and every change of shift type goes through days off. The candidate roster breaks that pattern for 18 of the 30 workers (shorter blocks, and changes such as late to night without a day off). For those patterns the score is an extrapolation: the sleep model has never seen them. The next step is a second run restricted to the historical transitions and block lengths (planned as a switch in `scheduler/requirements_config.py`), for comparison with the unrestricted run. If most of the gain remains, it comes from which worker gets which shift, not from the new patterns, such as early to late without a day off. Forward rotation is supported by the shift-work literature, so the restricted run is a comparison, not a correction.
 
 ## Data and reproducibility
 
