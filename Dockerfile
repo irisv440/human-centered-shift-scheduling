@@ -8,5 +8,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY api/ ./api/
 COPY load_script.py ./
+COPY data/roster_comparison.json ./data/
+
 
 CMD ["uvicorn", "main:app", "--app-dir", "/app/api", "--host", "0.0.0.0", "--port", "8000"]

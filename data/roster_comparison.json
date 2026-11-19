@@ -1,0 +1,3947 @@
+{
+  "metadata": {
+    "computed_at": "2026-11-19T13:39:33",
+    "solver_status": "OPTIMAL",
+    "solver_runtime_seconds": 61.7,
+    "solver_time_limit_seconds": null,
+    "machine": "laptop, Intel Core i7-9750H (6 cores, 2.6 GHz), 16 GB RAM",
+    "objective_threshold_thousandths": 10000,
+    "objective_weight": 36,
+    "objective_scale": 100,
+    "request_penalty_minutes": 60,
+    "baseline": "historical roster, cycle 1 (first 28 days of data/historical_assignments.csv)"
+  },
+  "baseline": {
+    "objective": {
+      "objective": 72222.42936504149,
+      "total_sleep_loss_minutes": 57976.56699073195,
+      "total_excess_thousandths": 39571.83992863759,
+      "penalty": 14245.862374309532,
+      "per_worker": [
+        {
+          "worker_id": "W001",
+          "sleep_loss_minutes": 1668.354868598021,
+          "short_nights_thousandths": 7063.917313332359,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W002",
+          "sleep_loss_minutes": 2059.8173505827626,
+          "short_nights_thousandths": 2793.3908334824173,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W003",
+          "sleep_loss_minutes": 1977.1352842307915,
+          "short_nights_thousandths": 7918.386607293572,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W004",
+          "sleep_loss_minutes": 1932.785123330149,
+          "short_nights_thousandths": 8435.5245705051,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W005",
+          "sleep_loss_minutes": 2024.1700614977635,
+          "short_nights_thousandths": 8495.919302354725,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W006",
+          "sleep_loss_minutes": 2277.9279895408604,
+          "short_nights_thousandths": 9653.491642903859,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W007",
+          "sleep_loss_minutes": 1999.9070505754892,
+          "short_nights_thousandths": 3772.0315178495243,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W008",
+          "sleep_loss_minutes": 1746.9120727415152,
+          "short_nights_thousandths": 15139.608846811743,
+          "excess_thousandths": 5139.608846811743
+        },
+        {
+          "worker_id": "W009",
+          "sleep_loss_minutes": 2145.1763478752555,
+          "short_nights_thousandths": 10464.288647511887,
+          "excess_thousandths": 464.28864751188667
+        },
+        {
+          "worker_id": "W010",
+          "sleep_loss_minutes": 1870.4868850832465,
+          "short_nights_thousandths": 12402.47559170476,
+          "excess_thousandths": 2402.4755917047605
+        },
+        {
+          "worker_id": "W011",
+          "sleep_loss_minutes": 1624.9529859448928,
+          "short_nights_thousandths": 10865.211052486184,
+          "excess_thousandths": 865.2110524861837
+        },
+        {
+          "worker_id": "W012",
+          "sleep_loss_minutes": 1774.4711340218041,
+          "short_nights_thousandths": 8132.812553852812,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W013",
+          "sleep_loss_minutes": 1864.8970361098307,
+          "short_nights_thousandths": 2234.384234736025,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W014",
+          "sleep_loss_minutes": 2326.6242412205956,
+          "short_nights_thousandths": 13710.621048839059,
+          "excess_thousandths": 3710.621048839059
+        },
+        {
+          "worker_id": "W015",
+          "sleep_loss_minutes": 2038.791427224083,
+          "short_nights_thousandths": 4400.525284282063,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W016",
+          "sleep_loss_minutes": 1754.254849271519,
+          "short_nights_thousandths": 18083.057154188777,
+          "excess_thousandths": 8083.057154188777
+        },
+        {
+          "worker_id": "W017",
+          "sleep_loss_minutes": 1417.1729008865468,
+          "short_nights_thousandths": 6278.741150666541,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W018",
+          "sleep_loss_minutes": 2067.276633447686,
+          "short_nights_thousandths": 7218.595683507036,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W019",
+          "sleep_loss_minutes": 1988.0527536609707,
+          "short_nights_thousandths": 5268.867269853111,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W020",
+          "sleep_loss_minutes": 2171.8784264954493,
+          "short_nights_thousandths": 6133.756095563061,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W021",
+          "sleep_loss_minutes": 1846.0006357118975,
+          "short_nights_thousandths": 2805.14137056527,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W022",
+          "sleep_loss_minutes": 1849.921112694183,
+          "short_nights_thousandths": 7449.702867500709,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W023",
+          "sleep_loss_minutes": 2095.7547712498063,
+          "short_nights_thousandths": 13311.714294876825,
+          "excess_thousandths": 3311.714294876825
+        },
+        {
+          "worker_id": "W024",
+          "sleep_loss_minutes": 1687.3007182073509,
+          "short_nights_thousandths": 3329.8535746153325,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W025",
+          "sleep_loss_minutes": 1858.0720265854534,
+          "short_nights_thousandths": 7868.025664813217,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W026",
+          "sleep_loss_minutes": 2112.3817796994267,
+          "short_nights_thousandths": 17117.502796739846,
+          "excess_thousandths": 7117.5027967398455
+        },
+        {
+          "worker_id": "W027",
+          "sleep_loss_minutes": 2202.5706680376825,
+          "short_nights_thousandths": 15421.758456947264,
+          "excess_thousandths": 5421.758456947264
+        },
+        {
+          "worker_id": "W028",
+          "sleep_loss_minutes": 1749.846764478586,
+          "short_nights_thousandths": 13055.602038531255,
+          "excess_thousandths": 3055.602038531255
+        },
+        {
+          "worker_id": "W029",
+          "sleep_loss_minutes": 1912.6138279052964,
+          "short_nights_thousandths": 6696.5070010120235,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W030",
+          "sleep_loss_minutes": 1931.0592638230455,
+          "short_nights_thousandths": 6821.124705659194,
+          "excess_thousandths": 0.0
+        }
+      ],
+      "unscored_workers": []
+    },
+    "rosters": {
+      "W007": [
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off"
+      ],
+      "W012": [
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off"
+      ],
+      "W013": [
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off"
+      ],
+      "W015": [
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off"
+      ],
+      "W017": [
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off"
+      ],
+      "W025": [
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off"
+      ],
+      "W027": [
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off"
+      ],
+      "W029": [
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off"
+      ],
+      "W003": [
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early"
+      ],
+      "W004": [
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early"
+      ],
+      "W014": [
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early"
+      ],
+      "W018": [
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early"
+      ],
+      "W020": [
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early"
+      ],
+      "W021": [
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early"
+      ],
+      "W023": [
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early"
+      ],
+      "W024": [
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early"
+      ],
+      "W006": [
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late"
+      ],
+      "W008": [
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late"
+      ],
+      "W009": [
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late"
+      ],
+      "W016": [
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late"
+      ],
+      "W019": [
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late"
+      ],
+      "W022": [
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late"
+      ],
+      "W026": [
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late"
+      ],
+      "W001": [
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night"
+      ],
+      "W002": [
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night"
+      ],
+      "W005": [
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night"
+      ],
+      "W010": [
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night"
+      ],
+      "W011": [
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night"
+      ],
+      "W028": [
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night"
+      ],
+      "W030": [
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night"
+      ]
+    }
+  },
+  "candidate": {
+    "objective": {
+      "objective": 51533.69091323467,
+      "total_sleep_loss_minutes": 50496.37194419218,
+      "total_excess_thousandths": 2881.441580673596,
+      "penalty": 1037.3189690424945,
+      "per_worker": [
+        {
+          "worker_id": "W001",
+          "sleep_loss_minutes": 2114.8239418077337,
+          "short_nights_thousandths": 8722.77721246302,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W002",
+          "sleep_loss_minutes": 2514.900392569218,
+          "short_nights_thousandths": 2558.683698104425,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W003",
+          "sleep_loss_minutes": 1040.1788247101813,
+          "short_nights_thousandths": 3468.610926514908,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W004",
+          "sleep_loss_minutes": 1291.2989240856982,
+          "short_nights_thousandths": 5708.247280630685,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W005",
+          "sleep_loss_minutes": 1953.6336530707822,
+          "short_nights_thousandths": 7957.466758018138,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W006",
+          "sleep_loss_minutes": 2336.920115571633,
+          "short_nights_thousandths": 9694.618370440543,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W007",
+          "sleep_loss_minutes": 1357.0341721398913,
+          "short_nights_thousandths": 2482.4192502113583,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W008",
+          "sleep_loss_minutes": 839.0946561774105,
+          "short_nights_thousandths": 9965.822510555403,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W009",
+          "sleep_loss_minutes": 2062.474817257044,
+          "short_nights_thousandths": 9802.629461251498,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W010",
+          "sleep_loss_minutes": 1599.3095975399829,
+          "short_nights_thousandths": 9719.459971518212,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W011",
+          "sleep_loss_minutes": 1406.5379214005352,
+          "short_nights_thousandths": 9713.272992152644,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W012",
+          "sleep_loss_minutes": 1876.1839188637484,
+          "short_nights_thousandths": 7688.040404961781,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W013",
+          "sleep_loss_minutes": 1975.78523949335,
+          "short_nights_thousandths": 1287.5867564749678,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W014",
+          "sleep_loss_minutes": 1245.6563760235047,
+          "short_nights_thousandths": 8994.64180602632,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W015",
+          "sleep_loss_minutes": 1666.8000479197729,
+          "short_nights_thousandths": 2559.2449786793222,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W016",
+          "sleep_loss_minutes": 522.4863883212395,
+          "short_nights_thousandths": 12881.441580673596,
+          "excess_thousandths": 2881.441580673596
+        },
+        {
+          "worker_id": "W017",
+          "sleep_loss_minutes": 1783.5764812982827,
+          "short_nights_thousandths": 7942.628396685071,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W018",
+          "sleep_loss_minutes": 2131.071650375724,
+          "short_nights_thousandths": 7807.742435643532,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W019",
+          "sleep_loss_minutes": 2033.786869473969,
+          "short_nights_thousandths": 3815.9456686452586,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W020",
+          "sleep_loss_minutes": 2567.466275331726,
+          "short_nights_thousandths": 7434.00587212731,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W021",
+          "sleep_loss_minutes": 1692.1167444661662,
+          "short_nights_thousandths": 1.0662241214228573e-19,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W022",
+          "sleep_loss_minutes": 1794.5133189553853,
+          "short_nights_thousandths": 1349.182394940982,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W023",
+          "sleep_loss_minutes": 1612.9340558614808,
+          "short_nights_thousandths": 8787.943010431898,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W024",
+          "sleep_loss_minutes": 1664.2198294332645,
+          "short_nights_thousandths": 2663.5963055777734,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W025",
+          "sleep_loss_minutes": 1860.206391016142,
+          "short_nights_thousandths": 3618.9657167267806,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W026",
+          "sleep_loss_minutes": 792.3486962006903,
+          "short_nights_thousandths": 9398.470395626671,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W027",
+          "sleep_loss_minutes": 614.322417528508,
+          "short_nights_thousandths": 9853.981575143942,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W028",
+          "sleep_loss_minutes": 1325.304133902638,
+          "short_nights_thousandths": 9786.981008128534,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W029",
+          "sleep_loss_minutes": 2610.194227853443,
+          "short_nights_thousandths": 9493.01373364537,
+          "excess_thousandths": 0.0
+        },
+        {
+          "worker_id": "W030",
+          "sleep_loss_minutes": 2211.191865543036,
+          "short_nights_thousandths": 8259.101681042437,
+          "excess_thousandths": 0.0
+        }
+      ],
+      "unscored_workers": []
+    },
+    "solver_objective": 5260196,
+    "n_violated_requests": 18,
+    "rosters": {
+      "W001": [
+        "early",
+        "early",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "night",
+        "night",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night"
+      ],
+      "W002": [
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early"
+      ],
+      "W003": [
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "night",
+        "night",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "night",
+        "night",
+        "night"
+      ],
+      "W004": [
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "night",
+        "night",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night"
+      ],
+      "W005": [
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late"
+      ],
+      "W006": [
+        "early",
+        "early",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early"
+      ],
+      "W007": [
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "off"
+      ],
+      "W008": [
+        "late",
+        "late",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "late",
+        "late",
+        "night",
+        "night",
+        "night"
+      ],
+      "W009": [
+        "night",
+        "night",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "late",
+        "late",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late"
+      ],
+      "W010": [
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early"
+      ],
+      "W011": [
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early"
+      ],
+      "W012": [
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off"
+      ],
+      "W013": [
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off"
+      ],
+      "W014": [
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "night",
+        "night",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "night",
+        "night",
+        "night"
+      ],
+      "W015": [
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "off"
+      ],
+      "W016": [
+        "late",
+        "late",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late"
+      ],
+      "W017": [
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off"
+      ],
+      "W018": [
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "late",
+        "late",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "late",
+        "late",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "late",
+        "late",
+        "late"
+      ],
+      "W019": [
+        "early",
+        "early",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early"
+      ],
+      "W020": [
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "night",
+        "night",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "late",
+        "late",
+        "late"
+      ],
+      "W021": [
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night"
+      ],
+      "W022": [
+        "night",
+        "night",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night"
+      ],
+      "W023": [
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "late",
+        "late",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "late",
+        "late",
+        "late"
+      ],
+      "W024": [
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "late",
+        "late",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early"
+      ],
+      "W025": [
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off"
+      ],
+      "W026": [
+        "late",
+        "late",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "early",
+        "early",
+        "late",
+        "late",
+        "late"
+      ],
+      "W027": [
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off"
+      ],
+      "W028": [
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "off",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "early",
+        "early",
+        "late",
+        "late",
+        "late",
+        "late",
+        "late",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early"
+      ],
+      "W029": [
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "early",
+        "off",
+        "off",
+        "off"
+      ],
+      "W030": [
+        "early",
+        "early",
+        "late",
+        "late",
+        "off",
+        "off",
+        "off",
+        "early",
+        "early",
+        "late",
+        "late",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "night",
+        "off",
+        "off",
+        "early",
+        "early",
+        "early"
+      ]
+    },
+    "results": [
+      {
+        "worker_id": "W001",
+        "cumulative_diff_hours": -35.24706569679556,
+        "expected_short_nights_given_main_sleep": 8.722777212463019,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.5510651327125399,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 0.06888314158906747,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 11,
+            "diff_contribution_hours": -12.72795949050421,
+            "expected_short_nights_contribution": 2.76769307606654,
+            "diff_per_night_hours": -1.1570872264094738,
+            "p_short_per_night": 0.2516084614605945,
+            "p_short_increase_vs_off": 0.18272531987152704
+          },
+          "late": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -0.5632756496233448,
+            "p_short_per_night": 0.1383970925452711,
+            "p_short_increase_vs_off": 0.06951395095620364
+          },
+          "night": {
+            "num_nights": 10,
+            "diff_contribution_hours": -22.51910620629135,
+            "expected_short_nights_contribution": 5.404019003683941,
+            "diff_per_night_hours": -2.251910620629135,
+            "p_short_per_night": 0.5404019003683941,
+            "p_short_increase_vs_off": 0.4715187587793266
+          }
+        },
+        "is_extrapolation": true,
+        "unseen_transitions": [
+          [
+            "early",
+            "night"
+          ]
+        ],
+        "unseen_block_lengths": [
+          [
+            "night",
+            2
+          ],
+          [
+            "early",
+            4
+          ],
+          [
+            "night",
+            3
+          ],
+          [
+            "early",
+            5
+          ]
+        ],
+        "uncertain_boundary_block_lengths": [
+          [
+            "early",
+            2
+          ],
+          [
+            "night",
+            3
+          ]
+        ]
+      },
+      {
+        "worker_id": "W002",
+        "cumulative_diff_hours": -41.9150065428203,
+        "expected_short_nights_given_main_sleep": 2.5586836981044248,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.00020816013036804016,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 2.602001629600502e-05,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 21,
+            "diff_contribution_hours": -41.9150065428203,
+            "expected_short_nights_contribution": 2.558475537974057,
+            "diff_per_night_hours": -1.995952692515252,
+            "p_short_per_night": 0.1218321684749551,
+            "p_short_increase_vs_off": 0.12180614845865909
+          },
+          "late": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -0.5151918405737136,
+            "p_short_per_night": 0.0004786428932626279,
+            "p_short_increase_vs_off": 0.0004526228769666229
+          },
+          "night": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -2.3931824921080884,
+            "p_short_per_night": 0.2767152848249322,
+            "p_short_increase_vs_off": 0.2766892648086362
+          }
+        },
+        "is_extrapolation": false,
+        "unseen_transitions": [],
+        "unseen_block_lengths": [],
+        "uncertain_boundary_block_lengths": [
+          [
+            "early",
+            4
+          ],
+          [
+            "early",
+            3
+          ]
+        ]
+      },
+      {
+        "worker_id": "W003",
+        "cumulative_diff_hours": -17.33631374516969,
+        "expected_short_nights_given_main_sleep": 3.468610926514908,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.18952990401714034,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 0.023691238002142543,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -2.60622748503606,
+            "p_short_per_night": 0.687567387987105,
+            "p_short_increase_vs_off": 0.6638761499849625
+          },
+          "late": {
+            "num_nights": 14,
+            "diff_contribution_hours": -5.255302806484481,
+            "expected_short_nights_contribution": 0.7263920702621462,
+            "diff_per_night_hours": -0.37537877189174873,
+            "p_short_per_night": 0.051885147875867586,
+            "p_short_increase_vs_off": 0.028193909873725043
+          },
+          "night": {
+            "num_nights": 7,
+            "diff_contribution_hours": -12.08101093868521,
+            "expected_short_nights_contribution": 2.5526889522356226,
+            "diff_per_night_hours": -1.7258587055264583,
+            "p_short_per_night": 0.3646698503193747,
+            "p_short_increase_vs_off": 0.34097861231723214
+          }
+        },
+        "is_extrapolation": true,
+        "unseen_transitions": [
+          [
+            "late",
+            "night"
+          ]
+        ],
+        "unseen_block_lengths": [
+          [
+            "late",
+            5
+          ],
+          [
+            "night",
+            2
+          ],
+          [
+            "late",
+            4
+          ]
+        ],
+        "uncertain_boundary_block_lengths": [
+          [
+            "night",
+            3
+          ]
+        ]
+      },
+      {
+        "worker_id": "W004",
+        "cumulative_diff_hours": -21.521648734761637,
+        "expected_short_nights_given_main_sleep": 5.708247280630685,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.5514943383650034,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 0.06893679229562542,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -2.6088436599264067,
+            "p_short_per_night": 0.6469850088460203,
+            "p_short_increase_vs_off": 0.5780482165503948
+          },
+          "late": {
+            "num_nights": 10,
+            "diff_contribution_hours": -4.016337599327406,
+            "expected_short_nights_contribution": 1.156023252196776,
+            "diff_per_night_hours": -0.40163375993274064,
+            "p_short_per_night": 0.11560232521967756,
+            "p_short_increase_vs_off": 0.046665532924052136
+          },
+          "night": {
+            "num_nights": 11,
+            "diff_contribution_hours": -17.505311135434223,
+            "expected_short_nights_contribution": 4.000729690068907,
+            "diff_per_night_hours": -1.591391921403111,
+            "p_short_per_night": 0.3637026990971733,
+            "p_short_increase_vs_off": 0.29476590680154785
+          }
+        },
+        "is_extrapolation": true,
+        "unseen_transitions": [
+          [
+            "late",
+            "night"
+          ]
+        ],
+        "unseen_block_lengths": [
+          [
+            "late",
+            5
+          ],
+          [
+            "night",
+            2
+          ]
+        ],
+        "uncertain_boundary_block_lengths": []
+      },
+      {
+        "worker_id": "W005",
+        "cumulative_diff_hours": -32.56056088451304,
+        "expected_short_nights_given_main_sleep": 7.957466758018137,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.07616717039508593,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 0.009520896299385741,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 14,
+            "diff_contribution_hours": -29.25398845553423,
+            "expected_short_nights_contribution": 7.623852908720475,
+            "diff_per_night_hours": -2.08957060396673,
+            "p_short_per_night": 0.5445609220514626,
+            "p_short_increase_vs_off": 0.5350400257520768
+          },
+          "late": {
+            "num_nights": 7,
+            "diff_contribution_hours": -3.3065724289788094,
+            "expected_short_nights_contribution": 0.2574466789025757,
+            "diff_per_night_hours": -0.4723674898541156,
+            "p_short_per_night": 0.03677809698608225,
+            "p_short_increase_vs_off": 0.027257200686696507
+          },
+          "night": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -2.257514433554781,
+            "p_short_per_night": 0.6214827140995465,
+            "p_short_increase_vs_off": 0.6119618178001607
+          }
+        },
+        "is_extrapolation": false,
+        "unseen_transitions": [],
+        "unseen_block_lengths": [],
+        "uncertain_boundary_block_lengths": [
+          [
+            "late",
+            4
+          ],
+          [
+            "late",
+            3
+          ]
+        ]
+      },
+      {
+        "worker_id": "W006",
+        "cumulative_diff_hours": -38.94866859286054,
+        "expected_short_nights_given_main_sleep": 9.694618370440542,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.1944091323847679,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 0.024301141548095987,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 17,
+            "diff_contribution_hours": -36.70565690010062,
+            "expected_short_nights_contribution": 9.196595532368693,
+            "diff_per_night_hours": -2.1591562882412125,
+            "p_short_per_night": 0.5409762077863937,
+            "p_short_increase_vs_off": 0.5166750662382976
+          },
+          "late": {
+            "num_nights": 4,
+            "diff_contribution_hours": -2.243011692759918,
+            "expected_short_nights_contribution": 0.3036137056870832,
+            "diff_per_night_hours": -0.5607529231899795,
+            "p_short_per_night": 0.0759034264217708,
+            "p_short_increase_vs_off": 0.05160228487367481
+          },
+          "night": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -2.7037288589041895,
+            "p_short_per_night": 0.7344178672945627,
+            "p_short_increase_vs_off": 0.7101167257464667
+          }
+        },
+        "is_extrapolation": true,
+        "unseen_transitions": [
+          [
+            "early",
+            "late"
+          ]
+        ],
+        "unseen_block_lengths": [
+          [
+            "early",
+            3
+          ],
+          [
+            "late",
+            4
+          ]
+        ],
+        "uncertain_boundary_block_lengths": [
+          [
+            "early",
+            2
+          ],
+          [
+            "early",
+            5
+          ]
+        ]
+      },
+      {
+        "worker_id": "W007",
+        "cumulative_diff_hours": -22.617236202331522,
+        "expected_short_nights_given_main_sleep": 2.4824192502113585,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 4.786827695540978e-05,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 5.983534619426223e-06,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 7,
+            "diff_contribution_hours": -16.08783533818197,
+            "expected_short_nights_contribution": 2.4798300726376334,
+            "diff_per_night_hours": -2.298262191168853,
+            "p_short_per_night": 0.3542614389482333,
+            "p_short_increase_vs_off": 0.35425545541361386
+          },
+          "late": {
+            "num_nights": 14,
+            "diff_contribution_hours": -6.529400864149552,
+            "expected_short_nights_contribution": 0.002541309296770162,
+            "diff_per_night_hours": -0.4663857760106823,
+            "p_short_per_night": 0.00018152209262644014,
+            "p_short_increase_vs_off": 0.00017553855800701393
+          },
+          "night": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -1.9970354865716304,
+            "p_short_per_night": 0.18441184604093602,
+            "p_short_increase_vs_off": 0.1844058625063166
+          }
+        },
+        "is_extrapolation": false,
+        "unseen_transitions": [],
+        "unseen_block_lengths": [],
+        "uncertain_boundary_block_lengths": []
+      },
+      {
+        "worker_id": "W008",
+        "cumulative_diff_hours": -13.984910936290174,
+        "expected_short_nights_given_main_sleep": 9.965822510555403,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 1.1393198124349195,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 0.1424149765543649,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -2.469762062639034,
+            "p_short_per_night": 0.9833375153390987,
+            "p_short_increase_vs_off": 0.8409225387847339
+          },
+          "late": {
+            "num_nights": 15,
+            "diff_contribution_hours": -6.412660931123607,
+            "expected_short_nights_contribution": 4.543800077339185,
+            "diff_per_night_hours": -0.427510728741574,
+            "p_short_per_night": 0.30292000515594564,
+            "p_short_increase_vs_off": 0.16050502860158072
+          },
+          "night": {
+            "num_nights": 6,
+            "diff_contribution_hours": -7.572250005166564,
+            "expected_short_nights_contribution": 4.2827026207813,
+            "diff_per_night_hours": -1.2620416675277606,
+            "p_short_per_night": 0.7137837701302165,
+            "p_short_increase_vs_off": 0.5713687935758516
+          }
+        },
+        "is_extrapolation": true,
+        "unseen_transitions": [
+          [
+            "late",
+            "night"
+          ]
+        ],
+        "unseen_block_lengths": [
+          [
+            "late",
+            4
+          ],
+          [
+            "night",
+            3
+          ],
+          [
+            "late",
+            2
+          ]
+        ],
+        "uncertain_boundary_block_lengths": [
+          [
+            "late",
+            2
+          ],
+          [
+            "night",
+            3
+          ]
+        ]
+      },
+      {
+        "worker_id": "W009",
+        "cumulative_diff_hours": -34.3745802876174,
+        "expected_short_nights_given_main_sleep": 9.802629461251497,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.021215961788314135,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 0.0026519952235392664,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 2,
+            "diff_contribution_hours": -4.892026631960089,
+            "expected_short_nights_contribution": 1.6043801847269412,
+            "diff_per_night_hours": -2.4460133159800446,
+            "p_short_per_night": 0.8021900923634706,
+            "p_short_increase_vs_off": 0.7995380971399313
+          },
+          "late": {
+            "num_nights": 7,
+            "diff_contribution_hours": -3.4384550886252314,
+            "expected_short_nights_contribution": 0.13873425339952486,
+            "diff_per_night_hours": -0.49120786980360454,
+            "p_short_per_night": 0.01981917905707498,
+            "p_short_increase_vs_off": 0.01716718383353571
+          },
+          "night": {
+            "num_nights": 12,
+            "diff_contribution_hours": -26.044098567032076,
+            "expected_short_nights_contribution": 8.038299061336717,
+            "diff_per_night_hours": -2.1703415472526735,
+            "p_short_per_night": 0.6698582551113931,
+            "p_short_increase_vs_off": 0.6672062598878538
+          }
+        },
+        "is_extrapolation": true,
+        "unseen_transitions": [
+          [
+            "early",
+            "late"
+          ],
+          [
+            "late",
+            "night"
+          ]
+        ],
+        "unseen_block_lengths": [
+          [
+            "early",
+            2
+          ],
+          [
+            "late",
+            2
+          ],
+          [
+            "night",
+            3
+          ]
+        ],
+        "uncertain_boundary_block_lengths": [
+          [
+            "night",
+            2
+          ],
+          [
+            "late",
+            5
+          ]
+        ]
+      },
+      {
+        "worker_id": "W010",
+        "cumulative_diff_hours": -26.655159958999715,
+        "expected_short_nights_given_main_sleep": 9.719459971518212,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 8.751891929142918e-08,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 1.0939864911428647e-08,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 12,
+            "diff_contribution_hours": -22.243205638119132,
+            "expected_short_nights_contribution": 9.718998013919524,
+            "diff_per_night_hours": -1.8536004698432604,
+            "p_short_per_night": 0.8099165011599603,
+            "p_short_increase_vs_off": 0.8099164902200954
+          },
+          "late": {
+            "num_nights": 9,
+            "diff_contribution_hours": -4.4119543208805805,
+            "expected_short_nights_contribution": 0.00046187007977036845,
+            "diff_per_night_hours": -0.49021714676450895,
+            "p_short_per_night": 5.131889775226316e-05,
+            "p_short_increase_vs_off": 5.130795788735173e-05
+          },
+          "night": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -2.1097225859713893,
+            "p_short_per_night": 0.9618143948259797,
+            "p_short_increase_vs_off": 0.9618143838861148
+          }
+        },
+        "is_extrapolation": true,
+        "unseen_transitions": [
+          [
+            "early",
+            "late"
+          ]
+        ],
+        "unseen_block_lengths": [
+          [
+            "early",
+            2
+          ],
+          [
+            "late",
+            5
+          ]
+        ],
+        "uncertain_boundary_block_lengths": [
+          [
+            "late",
+            4
+          ],
+          [
+            "early",
+            3
+          ]
+        ]
+      },
+      {
+        "worker_id": "W011",
+        "cumulative_diff_hours": -23.44229869000892,
+        "expected_short_nights_given_main_sleep": 9.713272992152644,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.9178735754154703,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 0.11473419692693382,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 11,
+            "diff_contribution_hours": -18.909179871526696,
+            "expected_short_nights_contribution": 6.709203839724337,
+            "diff_per_night_hours": -1.7190163519569723,
+            "p_short_per_night": 0.6099276217931214,
+            "p_short_increase_vs_off": 0.4951934248661876
+          },
+          "late": {
+            "num_nights": 10,
+            "diff_contribution_hours": -4.533118818482214,
+            "expected_short_nights_contribution": 2.0861955770128366,
+            "diff_per_night_hours": -0.4533118818482214,
+            "p_short_per_night": 0.20861955770128365,
+            "p_short_increase_vs_off": 0.09388536077434984
+          },
+          "night": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -1.6966074470159795,
+            "p_short_per_night": 0.6025010315156963,
+            "p_short_increase_vs_off": 0.4877668345887625
+          }
+        },
+        "is_extrapolation": true,
+        "unseen_transitions": [
+          [
+            "early",
+            "late"
+          ]
+        ],
+        "unseen_block_lengths": [
+          [
+            "early",
+            4
+          ],
+          [
+            "late",
+            3
+          ]
+        ],
+        "uncertain_boundary_block_lengths": [
+          [
+            "early",
+            4
+          ],
+          [
+            "early",
+            3
+          ]
+        ]
+      },
+      {
+        "worker_id": "W012",
+        "cumulative_diff_hours": -31.269731981062474,
+        "expected_short_nights_given_main_sleep": 7.6880404049617805,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.06447118208285628,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 0.008058897760357035,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -2.218257822995699,
+            "p_short_per_night": 0.7442273574445937,
+            "p_short_increase_vs_off": 0.7361684596842366
+          },
+          "late": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -0.5176385922437171,
+            "p_short_per_night": 0.04536573267116589,
+            "p_short_increase_vs_off": 0.037306834910808856
+          },
+          "night": {
+            "num_nights": 21,
+            "diff_contribution_hours": -31.269731981062474,
+            "expected_short_nights_contribution": 7.623569222878926,
+            "diff_per_night_hours": -1.4890348562410707,
+            "p_short_per_night": 0.36302710585137754,
+            "p_short_increase_vs_off": 0.35496820809102053
+          }
+        },
+        "is_extrapolation": false,
+        "unseen_transitions": [],
+        "unseen_block_lengths": [],
+        "uncertain_boundary_block_lengths": []
+      },
+      {
+        "worker_id": "W013",
+        "cumulative_diff_hours": -32.929753991555835,
+        "expected_short_nights_given_main_sleep": 1.287586756474968,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.006538865981898971,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 0.0008173582477373713,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -2.432533214015827,
+            "p_short_per_night": 0.2537961791661912,
+            "p_short_increase_vs_off": 0.2529788209184538
+          },
+          "late": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -0.43961430093349196,
+            "p_short_per_night": 0.0034651644418711943,
+            "p_short_increase_vs_off": 0.002647806194133823
+          },
+          "night": {
+            "num_nights": 21,
+            "diff_contribution_hours": -32.929753991555835,
+            "expected_short_nights_contribution": 1.281047890493069,
+            "diff_per_night_hours": -1.568083523407421,
+            "p_short_per_night": 0.06100228049966999,
+            "p_short_increase_vs_off": 0.06018492225193262
+          }
+        },
+        "is_extrapolation": false,
+        "unseen_transitions": [],
+        "unseen_block_lengths": [],
+        "uncertain_boundary_block_lengths": []
+      },
+      {
+        "worker_id": "W014",
+        "cumulative_diff_hours": -20.760939600391744,
+        "expected_short_nights_given_main_sleep": 8.994641806026321,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 1.0423614872586855,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 0.1302951859073357,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -3.0623420408148827,
+            "p_short_per_night": 0.9042402815385031,
+            "p_short_increase_vs_off": 0.7739450956311674
+          },
+          "late": {
+            "num_nights": 14,
+            "diff_contribution_hours": -6.840526398171998,
+            "expected_short_nights_contribution": 3.2274054559135603,
+            "diff_per_night_hours": -0.48860902844085696,
+            "p_short_per_night": 0.23052896113668297,
+            "p_short_increase_vs_off": 0.10023377522934729
+          },
+          "night": {
+            "num_nights": 7,
+            "diff_contribution_hours": -13.920413202219747,
+            "expected_short_nights_contribution": 4.724874862854075,
+            "diff_per_night_hours": -1.9886304574599638,
+            "p_short_per_night": 0.674982123264868,
+            "p_short_increase_vs_off": 0.5446869373575323
+          }
+        },
+        "is_extrapolation": true,
+        "unseen_transitions": [
+          [
+            "late",
+            "night"
+          ]
+        ],
+        "unseen_block_lengths": [
+          [
+            "late",
+            5
+          ],
+          [
+            "night",
+            2
+          ],
+          [
+            "late",
+            4
+          ]
+        ],
+        "uncertain_boundary_block_lengths": [
+          [
+            "night",
+            3
+          ]
+        ]
+      },
+      {
+        "worker_id": "W015",
+        "cumulative_diff_hours": -27.78000079866288,
+        "expected_short_nights_given_main_sleep": 2.559244978679322,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0483568687546943,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 0.006044608594336786,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -2.6441000214077657,
+            "p_short_per_night": 0.4336596575058171,
+            "p_short_increase_vs_off": 0.4276150489114803
+          },
+          "late": {
+            "num_nights": 7,
+            "diff_contribution_hours": -3.162313142431174,
+            "expected_short_nights_contribution": 0.12221351604866931,
+            "diff_per_night_hours": -0.45175902034731064,
+            "p_short_per_night": 0.01745907372123847,
+            "p_short_increase_vs_off": 0.011414465126901684
+          },
+          "night": {
+            "num_nights": 14,
+            "diff_contribution_hours": -24.617687656231706,
+            "expected_short_nights_contribution": 2.3886745938759573,
+            "diff_per_night_hours": -1.7584062611594073,
+            "p_short_per_night": 0.17061961384828261,
+            "p_short_increase_vs_off": 0.16457500525394583
+          }
+        },
+        "is_extrapolation": false,
+        "unseen_transitions": [],
+        "unseen_block_lengths": [],
+        "uncertain_boundary_block_lengths": []
+      },
+      {
+        "worker_id": "W016",
+        "cumulative_diff_hours": -8.708106472020658,
+        "expected_short_nights_given_main_sleep": 12.881441580673597,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 2.8486038550630637,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 0.3560754818828829,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -2.1296907865341357,
+            "p_short_per_night": 0.8924133332616491,
+            "p_short_increase_vs_off": 0.5363378513787662
+          },
+          "late": {
+            "num_nights": 21,
+            "diff_contribution_hours": -8.708106472020658,
+            "expected_short_nights_contribution": 10.032837725610536,
+            "diff_per_night_hours": -0.4146717367628886,
+            "p_short_per_night": 0.4777541774100258,
+            "p_short_increase_vs_off": 0.12167869552714289
+          },
+          "night": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -1.632434736873262,
+            "p_short_per_night": 0.8061829606319978,
+            "p_short_increase_vs_off": 0.4501074787491149
+          }
+        },
+        "is_extrapolation": false,
+        "unseen_transitions": [],
+        "unseen_block_lengths": [],
+        "uncertain_boundary_block_lengths": [
+          [
+            "late",
+            2
+          ],
+          [
+            "late",
+            5
+          ]
+        ]
+      },
+      {
+        "worker_id": "W017",
+        "cumulative_diff_hours": -29.726274688304713,
+        "expected_short_nights_given_main_sleep": 7.942628396685071,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.25048137261040443,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 0.03131017157630055,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 7,
+            "diff_contribution_hours": -11.600792808415996,
+            "expected_short_nights_contribution": 3.2543703852624284,
+            "diff_per_night_hours": -1.6572561154879992,
+            "p_short_per_night": 0.4649100550374898,
+            "p_short_increase_vs_off": 0.4335998834611892
+          },
+          "late": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -0.42228779996410837,
+            "p_short_per_night": 0.07928586762679868,
+            "p_short_increase_vs_off": 0.04797569605049813
+          },
+          "night": {
+            "num_nights": 14,
+            "diff_contribution_hours": -18.125481879888703,
+            "expected_short_nights_contribution": 4.437776638812235,
+            "diff_per_night_hours": -1.294677277134907,
+            "p_short_per_night": 0.3169840456294454,
+            "p_short_increase_vs_off": 0.2856738740531448
+          }
+        },
+        "is_extrapolation": false,
+        "unseen_transitions": [],
+        "unseen_block_lengths": [],
+        "uncertain_boundary_block_lengths": []
+      },
+      {
+        "worker_id": "W018",
+        "cumulative_diff_hours": -35.5178608395954,
+        "expected_short_nights_given_main_sleep": 7.807742435643532,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.009021492383322303,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 0.001127686547915288,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 14,
+            "diff_contribution_hours": -32.04768002483806,
+            "expected_short_nights_contribution": 7.735496208370209,
+            "diff_per_night_hours": -2.2891200017741467,
+            "p_short_per_night": 0.552535443455015,
+            "p_short_increase_vs_off": 0.5514077569070998
+          },
+          "late": {
+            "num_nights": 7,
+            "diff_contribution_hours": -3.470180814757343,
+            "expected_short_nights_contribution": 0.06322473488999902,
+            "diff_per_night_hours": -0.49574011639390614,
+            "p_short_per_night": 0.009032104984285574,
+            "p_short_increase_vs_off": 0.007904418436370287
+          },
+          "night": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -2.137227104326438,
+            "p_short_per_night": 0.46837162172123,
+            "p_short_increase_vs_off": 0.4672439351733147
+          }
+        },
+        "is_extrapolation": true,
+        "unseen_transitions": [
+          [
+            "early",
+            "late"
+          ]
+        ],
+        "unseen_block_lengths": [
+          [
+            "early",
+            5
+          ],
+          [
+            "late",
+            2
+          ],
+          [
+            "early",
+            4
+          ]
+        ],
+        "uncertain_boundary_block_lengths": [
+          [
+            "late",
+            3
+          ]
+        ]
+      },
+      {
+        "worker_id": "W019",
+        "cumulative_diff_hours": -33.89644782456615,
+        "expected_short_nights_given_main_sleep": 3.8159456686452584,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.03633214351513056,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 0.00454151793939132,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 21,
+            "diff_contribution_hours": -33.89644782456615,
+            "expected_short_nights_contribution": 3.7796135251301273,
+            "diff_per_night_hours": -1.614116563074579,
+            "p_short_per_night": 0.17998159643476797,
+            "p_short_increase_vs_off": 0.17544007849537666
+          },
+          "late": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -0.5174697871098293,
+            "p_short_per_night": 0.019414205553092246,
+            "p_short_increase_vs_off": 0.014872687613700926
+          },
+          "night": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -2.601872587103618,
+            "p_short_per_night": 0.5481092160604225,
+            "p_short_increase_vs_off": 0.5435676981210312
+          }
+        },
+        "is_extrapolation": false,
+        "unseen_transitions": [],
+        "unseen_block_lengths": [],
+        "uncertain_boundary_block_lengths": [
+          [
+            "early",
+            2
+          ],
+          [
+            "early",
+            5
+          ]
+        ]
+      },
+      {
+        "worker_id": "W020",
+        "cumulative_diff_hours": -42.791104588862105,
+        "expected_short_nights_given_main_sleep": 7.43400587212731,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.013422565686441986,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 0.0016778207108052482,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 14,
+            "diff_contribution_hours": -31.62514976938396,
+            "expected_short_nights_contribution": 5.50520206823358,
+            "diff_per_night_hours": -2.2589392692417114,
+            "p_short_per_night": 0.39322871915954155,
+            "p_short_increase_vs_off": 0.3915508984487363
+          },
+          "late": {
+            "num_nights": 3,
+            "diff_contribution_hours": -1.4485336391064076,
+            "expected_short_nights_contribution": 0.02711199239498481,
+            "diff_per_night_hours": -0.4828445463688026,
+            "p_short_per_night": 0.00903733079832827,
+            "p_short_increase_vs_off": 0.0073595100875230215
+          },
+          "night": {
+            "num_nights": 4,
+            "diff_contribution_hours": -9.717421180371746,
+            "expected_short_nights_contribution": 1.888269245812303,
+            "diff_per_night_hours": -2.4293552950929365,
+            "p_short_per_night": 0.47206731145307573,
+            "p_short_increase_vs_off": 0.4703894907422705
+          }
+        },
+        "is_extrapolation": true,
+        "unseen_transitions": [
+          [
+            "early",
+            "night"
+          ],
+          [
+            "early",
+            "late"
+          ]
+        ],
+        "unseen_block_lengths": [
+          [
+            "early",
+            5
+          ],
+          [
+            "night",
+            2
+          ],
+          [
+            "early",
+            4
+          ]
+        ],
+        "uncertain_boundary_block_lengths": [
+          [
+            "late",
+            3
+          ]
+        ]
+      },
+      {
+        "worker_id": "W021",
+        "cumulative_diff_hours": -28.20194574110277,
+        "expected_short_nights_given_main_sleep": 1.0662241214228574e-22,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 4.4249111000265246e-92,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 5.531138875033156e-93,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -2.6093868288261564,
+            "p_short_per_night": 0.4007344815093243,
+            "p_short_increase_vs_off": 0.4007344815093243
+          },
+          "late": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -0.4429029828163252,
+            "p_short_per_night": 4.3317493230534235e-65,
+            "p_short_increase_vs_off": 4.3317493230534235e-65
+          },
+          "night": {
+            "num_nights": 21,
+            "diff_contribution_hours": -28.20194574110277,
+            "expected_short_nights_contribution": 1.0662241214228574e-22,
+            "diff_per_night_hours": -1.3429497971953694,
+            "p_short_per_night": 5.077257721061226e-24,
+            "p_short_increase_vs_off": 5.077257721061226e-24
+          }
+        },
+        "is_extrapolation": false,
+        "unseen_transitions": [],
+        "unseen_block_lengths": [],
+        "uncertain_boundary_block_lengths": []
+      },
+      {
+        "worker_id": "W022",
+        "cumulative_diff_hours": -29.90855531592309,
+        "expected_short_nights_given_main_sleep": 1.349182394940982,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 3.121287477353258e-19,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 3.9016093466915717e-20,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -2.551639390926653,
+            "p_short_per_night": 0.9999964860700762,
+            "p_short_increase_vs_off": 0.9999964860700762
+          },
+          "late": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -0.4287177671107783,
+            "p_short_per_night": 4.263780179727571e-12,
+            "p_short_increase_vs_off": 4.263780140711478e-12
+          },
+          "night": {
+            "num_nights": 21,
+            "diff_contribution_hours": -29.90855531592309,
+            "expected_short_nights_contribution": 1.349182394940982,
+            "diff_per_night_hours": -1.4242169198058616,
+            "p_short_per_night": 0.06424678071147534,
+            "p_short_increase_vs_off": 0.06424678071147534
+          }
+        },
+        "is_extrapolation": false,
+        "unseen_transitions": [],
+        "unseen_block_lengths": [],
+        "uncertain_boundary_block_lengths": [
+          [
+            "night",
+            2
+          ],
+          [
+            "night",
+            5
+          ]
+        ]
+      },
+      {
+        "worker_id": "W023",
+        "cumulative_diff_hours": -26.882234264358015,
+        "expected_short_nights_given_main_sleep": 8.787943010431897,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.00041671675357129876,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 5.208959419641234e-05,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 9,
+            "diff_contribution_hours": -21.136608042185383,
+            "expected_short_nights_contribution": 8.74599430774469,
+            "diff_per_night_hours": -2.3485120046872643,
+            "p_short_per_night": 0.9717771453049653,
+            "p_short_increase_vs_off": 0.9717250557107688
+          },
+          "late": {
+            "num_nights": 12,
+            "diff_contribution_hours": -5.745626222172642,
+            "expected_short_nights_contribution": 0.0415319859336385,
+            "diff_per_night_hours": -0.47880218518105333,
+            "p_short_per_night": 0.0034609988278032086,
+            "p_short_increase_vs_off": 0.003408909233606796
+          },
+          "night": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -2.16257812263122,
+            "p_short_per_night": 0.9263757955991246,
+            "p_short_increase_vs_off": 0.9263237060049282
+          }
+        },
+        "is_extrapolation": true,
+        "unseen_transitions": [
+          [
+            "early",
+            "late"
+          ]
+        ],
+        "unseen_block_lengths": [
+          [
+            "early",
+            5
+          ],
+          [
+            "late",
+            2
+          ],
+          [
+            "early",
+            4
+          ]
+        ],
+        "uncertain_boundary_block_lengths": [
+          [
+            "late",
+            3
+          ]
+        ]
+      },
+      {
+        "worker_id": "W024",
+        "cumulative_diff_hours": -27.736997157221076,
+        "expected_short_nights_given_main_sleep": 2.6635963055777734,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.03566121349699682,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 0.004457651687124603,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 15,
+            "diff_contribution_hours": -17.35283911860192,
+            "expected_short_nights_contribution": 1.066514102632106,
+            "diff_per_night_hours": -1.156855941240128,
+            "p_short_per_night": 0.07110094017547375,
+            "p_short_increase_vs_off": 0.06664328848834915
+          },
+          "late": {
+            "num_nights": 2,
+            "diff_contribution_hours": -1.0579488460141506,
+            "expected_short_nights_contribution": 0.03657088477419845,
+            "diff_per_night_hours": -0.5289744230070753,
+            "p_short_per_night": 0.018285442387099227,
+            "p_short_increase_vs_off": 0.013827790699974623
+          },
+          "night": {
+            "num_nights": 4,
+            "diff_contribution_hours": -9.326209192605004,
+            "expected_short_nights_contribution": 1.524850104674471,
+            "diff_per_night_hours": -2.331552298151251,
+            "p_short_per_night": 0.3812125261686177,
+            "p_short_increase_vs_off": 0.37675487448149314
+          }
+        },
+        "is_extrapolation": true,
+        "unseen_transitions": [
+          [
+            "early",
+            "late"
+          ],
+          [
+            "early",
+            "night"
+          ]
+        ],
+        "unseen_block_lengths": [
+          [
+            "early",
+            5
+          ],
+          [
+            "late",
+            2
+          ],
+          [
+            "early",
+            3
+          ],
+          [
+            "night",
+            4
+          ]
+        ],
+        "uncertain_boundary_block_lengths": []
+      },
+      {
+        "worker_id": "W025",
+        "cumulative_diff_hours": -31.003439850269036,
+        "expected_short_nights_given_main_sleep": 3.6189657167267804,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 1.3006652812030346e-05,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 1.6258316015037933e-06,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -2.5129705757884757,
+            "p_short_per_night": 0.9514868462529454,
+            "p_short_increase_vs_off": 0.951485220421344
+          },
+          "late": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -0.43465616130693574,
+            "p_short_per_night": 0.0001838806235899679,
+            "p_short_increase_vs_off": 0.0001822547919884641
+          },
+          "night": {
+            "num_nights": 21,
+            "diff_contribution_hours": -31.003439850269036,
+            "expected_short_nights_contribution": 3.618952710073969,
+            "diff_per_night_hours": -1.4763542785842403,
+            "p_short_per_night": 0.1723310814320938,
+            "p_short_increase_vs_off": 0.1723294556004923
+          }
+        },
+        "is_extrapolation": false,
+        "unseen_transitions": [],
+        "unseen_block_lengths": [],
+        "uncertain_boundary_block_lengths": []
+      },
+      {
+        "worker_id": "W026",
+        "cumulative_diff_hours": -13.205811603344838,
+        "expected_short_nights_given_main_sleep": 9.39847039562667,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 1.145883264078427,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 0.1432354080098034,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 2,
+            "diff_contribution_hours": -4.229478913506941,
+            "expected_short_nights_contribution": 1.923970239219358,
+            "diff_per_night_hours": -2.1147394567534703,
+            "p_short_per_night": 0.961985119609679,
+            "p_short_increase_vs_off": 0.8187497115998756
+          },
+          "late": {
+            "num_nights": 19,
+            "diff_contribution_hours": -8.976332689837898,
+            "expected_short_nights_contribution": 6.328616892328885,
+            "diff_per_night_hours": -0.4724385626230473,
+            "p_short_per_night": 0.3330850995962571,
+            "p_short_increase_vs_off": 0.1898496915864537
+          },
+          "night": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -2.4423024084792613,
+            "p_short_per_night": 0.9865897140314102,
+            "p_short_increase_vs_off": 0.8433543060216068
+          }
+        },
+        "is_extrapolation": true,
+        "unseen_transitions": [
+          [
+            "early",
+            "late"
+          ]
+        ],
+        "unseen_block_lengths": [
+          [
+            "early",
+            2
+          ]
+        ],
+        "uncertain_boundary_block_lengths": [
+          [
+            "late",
+            2
+          ],
+          [
+            "late",
+            3
+          ]
+        ]
+      },
+      {
+        "worker_id": "W027",
+        "cumulative_diff_hours": -10.238706958808468,
+        "expected_short_nights_given_main_sleep": 9.853981575143942,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 2.137510080939919,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 0.26718876011748993,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -2.7310619189547793,
+            "p_short_per_night": 0.8285062699881045,
+            "p_short_increase_vs_off": 0.5613175098706146
+          },
+          "late": {
+            "num_nights": 19,
+            "diff_contribution_hours": -5.825622461117354,
+            "expected_short_nights_contribution": 6.23421796855203,
+            "diff_per_night_hours": -0.30661170847986075,
+            "p_short_per_night": 0.3281167351869489,
+            "p_short_increase_vs_off": 0.06092797506945896
+          },
+          "night": {
+            "num_nights": 2,
+            "diff_contribution_hours": -4.4130844976911145,
+            "expected_short_nights_contribution": 1.4822535256519929,
+            "diff_per_night_hours": -2.2065422488455573,
+            "p_short_per_night": 0.7411267628259964,
+            "p_short_increase_vs_off": 0.4739380027085065
+          }
+        },
+        "is_extrapolation": true,
+        "unseen_transitions": [
+          [
+            "late",
+            "night"
+          ]
+        ],
+        "unseen_block_lengths": [
+          [
+            "late",
+            5
+          ],
+          [
+            "night",
+            2
+          ]
+        ],
+        "uncertain_boundary_block_lengths": []
+      },
+      {
+        "worker_id": "W028",
+        "cumulative_diff_hours": -22.08840223171063,
+        "expected_short_nights_given_main_sleep": 9.786981008128533,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.46203874801516326,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 0.05775484350189541,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 5,
+            "diff_contribution_hours": -9.646934753514264,
+            "expected_short_nights_contribution": 4.208661917019646,
+            "diff_per_night_hours": -1.929386950702853,
+            "p_short_per_night": 0.8417323834039293,
+            "p_short_increase_vs_off": 0.7839775399020339
+          },
+          "late": {
+            "num_nights": 12,
+            "diff_contribution_hours": -5.240712000388996,
+            "expected_short_nights_contribution": 1.930331994621789,
+            "diff_per_night_hours": -0.4367260000324163,
+            "p_short_per_night": 0.1608609995518157,
+            "p_short_increase_vs_off": 0.1031061560499203
+          },
+          "night": {
+            "num_nights": 4,
+            "diff_contribution_hours": -7.200755477807367,
+            "expected_short_nights_contribution": 3.1859483484719338,
+            "diff_per_night_hours": -1.8001888694518418,
+            "p_short_per_night": 0.7964870871179834,
+            "p_short_increase_vs_off": 0.738732243616088
+          }
+        },
+        "is_extrapolation": true,
+        "unseen_transitions": [
+          [
+            "early",
+            "late"
+          ]
+        ],
+        "unseen_block_lengths": [
+          [
+            "early",
+            2
+          ],
+          [
+            "late",
+            5
+          ]
+        ],
+        "uncertain_boundary_block_lengths": [
+          [
+            "night",
+            4
+          ],
+          [
+            "early",
+            3
+          ]
+        ]
+      },
+      {
+        "worker_id": "W029",
+        "cumulative_diff_hours": -43.50323713089072,
+        "expected_short_nights_given_main_sleep": 9.49301373364537,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.19233122223784724,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 0.0240414027797309,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 21,
+            "diff_contribution_hours": -43.50323713089072,
+            "expected_short_nights_contribution": 9.30068251140752,
+            "diff_per_night_hours": -2.071582720518605,
+            "p_short_per_night": 0.4428896434003582,
+            "p_short_increase_vs_off": 0.4188482406206273
+          },
+          "late": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -0.45056759087405096,
+            "p_short_per_night": 0.05728714386957693,
+            "p_short_increase_vs_off": 0.03324574108984603
+          },
+          "night": {
+            "num_nights": 0,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 0.0,
+            "diff_per_night_hours": -2.0316921360009066,
+            "p_short_per_night": 0.4289911811263763,
+            "p_short_increase_vs_off": 0.4049497783466454
+          }
+        },
+        "is_extrapolation": false,
+        "unseen_transitions": [],
+        "unseen_block_lengths": [],
+        "uncertain_boundary_block_lengths": []
+      },
+      {
+        "worker_id": "W030",
+        "cumulative_diff_hours": -36.853197759050595,
+        "expected_short_nights_given_main_sleep": 8.259101681042438,
+        "per_linked_shift": {
+          "off": {
+            "num_nights": 8,
+            "diff_contribution_hours": 0.0,
+            "expected_short_nights_contribution": 5.264201415373928e-07,
+            "diff_per_night_hours": 0.0,
+            "p_short_per_night": 6.58025176921741e-08,
+            "p_short_increase_vs_off": 0.0
+          },
+          "early": {
+            "num_nights": 7,
+            "diff_contribution_hours": -14.431466077181689,
+            "expected_short_nights_contribution": 3.4654468246736734,
+            "diff_per_night_hours": -2.0616380110259556,
+            "p_short_per_night": 0.49506383209623905,
+            "p_short_increase_vs_off": 0.49506376629372134
+          },
+          "late": {
+            "num_nights": 4,
+            "diff_contribution_hours": -1.9596598183119,
+            "expected_short_nights_contribution": 0.00011364152508534175,
+            "diff_per_night_hours": -0.489914954577975,
+            "p_short_per_night": 2.8410381271335437e-05,
+            "p_short_increase_vs_off": 2.8344578753643265e-05
+          },
+          "night": {
+            "num_nights": 10,
+            "diff_contribution_hours": -20.462071863557,
+            "expected_short_nights_contribution": 4.793540688423538,
+            "diff_per_night_hours": -2.0462071863556996,
+            "p_short_per_night": 0.47935406884235365,
+            "p_short_increase_vs_off": 0.47935400303983594
+          }
+        },
+        "is_extrapolation": true,
+        "unseen_transitions": [
+          [
+            "early",
+            "late"
+          ],
+          [
+            "late",
+            "night"
+          ]
+        ],
+        "unseen_block_lengths": [
+          [
+            "late",
+            2
+          ],
+          [
+            "early",
+            2
+          ],
+          [
+            "night",
+            3
+          ]
+        ],
+        "uncertain_boundary_block_lengths": [
+          [
+            "early",
+            2
+          ],
+          [
+            "early",
+            3
+          ]
+        ]
+      }
+    ]
+  },
+  "comparison": {
+    "difference_minutes": 20688.73845180682,
+    "difference_percent": 28.645863388556947
+  }
+}

@@ -36,7 +36,7 @@ human-centered-shift-scheduling/
 │       ├── calculate_sri.py    # Sleep Regularity Index
 │       ├── summarize_sleep.py  # sleep statistics per linked shift
 │       └── shift_analysis.py   # shift blocks, short sleep, difference vs Off
-├── data/                       # generated CSV files (see "Data and reproducibility")
+├── data/                       # generated CSV files (see "Data and reproducibility") and roster_comparison.json
 ├── data_generation/
 │   ├── generate_workers.py
 │   ├── generate_historical_roster.py
@@ -61,6 +61,7 @@ human-centered-shift-scheduling/
 ├── tests/                      # unit tests (pytest)
 ├── validation/                 # checks of the evaluator and the solver; scripts, not unit tests
 │   ├── compare_rosters.py      # historical roster versus the candidate roster of the model
+│   ├── export_roster_comparison.py  # writes data/roster_comparison.json for GET /roster-comparison
 │   ├── tune_parameters.py      # sensitivity analysis of the objective threshold and weight
 │   ├── validate_linkage.py     # linkage of the evaluator versus the generator's linked shifts
 │   └── validate_recovery.py    # estimated versus true (latent) sleep parameters
@@ -187,6 +188,11 @@ Interactive documentation is then available at `http://127.0.0.1:8000/docs`.
 | `GET /shift-sleep/{worker_id}` | shifts joined with the sleep they affect |
 | `GET /shift-sleep-analysis/{worker_id}` | sleep per day in a shift block, short sleep per shift type, and difference vs Off |
 | `GET /sleep-regularity/{worker_id}` | Sleep Regularity Index (overall and per pair of consecutive days) |
+| `GET /roster-comparison` | historical roster (cycle 1) versus the candidate roster of the solver: both rosters, scores per worker, the difference, and how the result was computed (precomputed, see below) |
+
+**`/roster-comparison` (version 1).** The endpoint serves a precomputed comparison of the historical roster and the candidate roster of the solver. Sending your own data is not implemented yet: the comparison is computed once by `python -m validation.export_roster_comparison` (solving takes one to two minutes) and saved as `data/roster_comparison.json`. The file records when and with which settings it was computed (solver status and time, threshold, weight, request penalty, machine). After a change in `scheduler/requirements_config.py`, run the script again.
+
+**Planned for version 2.** Users can send their own roster in a request, and get it scored and compared with the historical roster.
 
 ## Modelling choices
 
@@ -212,7 +218,7 @@ Interactive documentation is then available at `http://127.0.0.1:8000/docs`.
 - the difference in sleep versus the worker's own Off nights, in minutes;
 - the probability of a short night (under 6 hours), times 1000.
 
-**Objective.** The objective is the same in the evaluator (`evaluator/objective.py`) and in the solver (`make_objective` in `scheduler/model.py`). It adds the total sleep loss of all workers (in minutes) to a penalty for each worker whose expected number of short nights exceeds a threshold. The threshold and weight are set in `scheduler/requirements_config.py` (`objective_threshold_thousandths = 10000`, i.e. 10 expected short nights per worker per cycle; `objective_weight = 36`). A sensitivity analysis (`validation/tune_parameters.py`: thresholds 7.5, 10 and 12.5 × weights 18, 36 and 72) showed that the threshold matters and the weight hardly does. A threshold of 12.5 lowers total sleep loss slightly, but raises the number of workers above 10 expected short nights from 1 to 8, so the threshold stays at 10. The solver needs whole numbers, so its objective is the evaluator's objective multiplied by 100 (up to rounding per table cell).
+**Objective.** The objective adds the total sleep loss of all workers (in minutes) to a penalty for each worker whose expected number of short nights exceeds a threshold. This part is the same in the evaluator (`evaluator/objective.py`) and in the solver (`make_objective` in `scheduler/model.py`). The solver adds one more term: a penalty for each violated off request (see Off requests), which the evaluator does not score. This is the difference between the two: the evaluator measures what a roster does to sleep, the solver plans a roster and also weighs the workers' requests. The threshold and weight are set in `scheduler/requirements_config.py` (`objective_threshold_thousandths = 10000`, i.e. 10 expected short nights per worker per cycle; `objective_weight = 36`). A sensitivity analysis (`validation/tune_parameters.py`: thresholds 7.5, 10 and 12.5 × weights 18, 36 and 72) showed that the threshold matters and the weight hardly does. A threshold of 12.5 lowers total sleep loss slightly, but raises the number of workers above 10 expected short nights from 1 to 8, so the threshold stays at 10. The solver needs whole numbers, so its sleep-related objective is the evaluator's objective multiplied by 100 (up to rounding per table cell).
 
 **Constraints.** Rest of at least 11 hours between shifts, at most 7 consecutive working days, 2 days off after 7 working days, at most 168 hours per 28-day cycle, staffing per team and role, and consistency between a worker's shift and assigned team.
 
@@ -223,9 +229,10 @@ Interactive documentation is then available at `http://127.0.0.1:8000/docs`.
 ```
 python -m scheduler.model
 python -m validation.compare_rosters
+python -m validation.export_roster_comparison
 ```
 
-`scheduler.model` solves the model and prints the candidate roster and its objective. `validation.compare_rosters` scores the historical roster (first 28-day cycle) and the candidate roster on the same route, checks the candidate against the historical patterns, and prints both objectives. Solving takes about one to two minutes.
+`scheduler.model` solves the model and prints the candidate roster and its objective. `validation.compare_rosters` scores the historical roster (first 28-day cycle) and the candidate roster on the same route, checks the candidate against the historical patterns, and prints both objectives. `validation.export_roster_comparison` writes the same comparison to `data/roster_comparison.json`, which `GET /roster-comparison` serves. Solving takes about one to two minutes.
 
 **First result.** The candidate roster has a 28.6 % lower objective than the historical roster (51 534 versus 72 222). About two thirds of that gain comes from the penalty: the solver spreads the expected short nights more evenly across workers, while total sleep loss drops by 13 %. 18 of the 55 off requests are violated; 9 of these are day-off requests that cannot be granted (see Off requests). The solver's own objective is higher (52 602) because it also includes the penalty for violated requests, which the evaluator does not score.
 

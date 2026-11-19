@@ -7,7 +7,9 @@ uvicorn main:app --reload
 @author: irisv
 """
 
-import os 
+import os
+import json
+from pathlib import Path
 import psycopg2
 from psycopg2.extras import RealDictCursor 
 from fastapi import FastAPI, HTTPException
@@ -22,6 +24,9 @@ from sleep_metrics.shift_analysis import build_sleep_by_shift, summarize_by_day_
 
 # Sleep shorter than this threshold (in hours) counts as short sleep.
 SHORT_SLEEP_THRESHOLD_HOURS = 6
+# Precomputed roster comparison, written by: python -m validation.export_roster_comparison
+# api - parent of main.py - one level up: main folder
+ROSTER_COMPARISON_PATH = Path(__file__).resolve().parent.parent / "data" / "roster_comparison.json"
 
 # FastAPI
 app = FastAPI()
@@ -488,9 +493,34 @@ def sleep_regularity(worker_id: str):
     finally:
         cur.close()
         conn.close()
-        
-#POST /evaluate-roster
-        
+
+@app.get(
+    "/roster-comparison",
+    responses={
+        404: {"description": "Roster Comparison file not found."}
+    }
+)
+def get_roster_comparison():
+      """
+      Historical roster (cycle 1) versus the candidate roster of the CPMpy model.
+      Serves a precomputed file: the solver takes 1-2 minutes and its result does not
+      depend on the request, so it is computed once by validation/export_roster_comparison.py.
+      """
+      # File missing: the export script has not been run yet
+      if not ROSTER_COMPARISON_PATH.exists():
+          raise HTTPException(
+              status_code=404,
+              detail="Roster comparison not found. Run: python -m validation.export_roster_comparison"
+          )
+
+      # Read the JSON file; parse_float rounds every decimal number to 3 decimals while reading
+      with open(ROSTER_COMPARISON_PATH, encoding="utf-8") as file:
+          comparison = json.load(file, parse_float=lambda x: round(float(x), 3))
+
+      return comparison
+
+# POST /evaluate-roster
+# Planned for version 2       
         
 @app.get("/db-test")
 def test_database():

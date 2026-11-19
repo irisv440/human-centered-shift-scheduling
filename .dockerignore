@@ -7,4 +7,5 @@
 .venv/
 venv/
 data/
+!data/roster_comparison.json
 compose.local.yaml
