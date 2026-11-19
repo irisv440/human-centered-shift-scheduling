@@ -57,13 +57,18 @@ def build_baseline_roster(cell_parameters, assignments):
     return baseline_objective
 
 # Solve, convert, score, objective and validity check
-def build_candidate_roster(cell_parameters, historical_rosters_all):
+def build_candidate_roster(cell_parameters, historical_rosters_all, threshold = cf.objective_threshold_thousandths, weight = cf.objective_weight, time_limit=None):
     """
     Solve the CPMpy model and score the candidate roster on the same route as the baseline.
 
     cell_parameters: the first element of the output of estimate_cell_parameters_lmm.
     historical_rosters_all: get_rosters_from_records on ALL historical assignments (84 days),
                             not only cycle 1, so the validity check knows every historical pattern.
+    threshold: threshold in thousandths of a short night (default: the config value).
+    weight: weight in the solver unit, e.g. 36 (default: the config value);
+            compute_objective gets weight / objective_scale.
+    time_limit: maximum solver time in seconds (default None: no limit). When the limit is
+                reached with a roster found, the status is FEASIBLE instead of OPTIMAL.
 
     Returns None if the solver finds no roster, otherwise a dict:
     {
@@ -72,12 +77,13 @@ def build_candidate_roster(cell_parameters, historical_rosters_all):
       "rosters": worker_id -> list of str ("off", "early", "late", "night"),
       "results": the output of score_all_workers, including the validity fields,
       "candidate_objective": the output of compute_objective (minutes, same unit as the baseline),
+      "n_violated_requests": number of violated off requests in the candidate roster,
     }
     """
-    model, shifts, assigned_team, early_linked, late_linked, night_linked, off_linked, objective = build_model(cell_parameters)
+    model, shifts, assigned_team, early_linked, late_linked, night_linked, off_linked, objective, violated_request = build_model(cell_parameters, threshold=threshold, weight=weight)
 
     # solve the model
-    model.solve()
+    model.solve(time_limit=time_limit)
 
     # Check status
     print(model.status())
@@ -103,7 +109,10 @@ def build_candidate_roster(cell_parameters, historical_rosters_all):
     results = score_all_workers(rosters, cell_parameters, historical_patterns)
 
     # 4. Objective on the same route as the baseline (compute_objective, not rounded per cell)
-    candidate_objective = compute_objective(results, threshold_thousandths=cf.objective_threshold_thousandths, weight=cf.objective_weight / cf.objective_scale)
+    candidate_objective = compute_objective(results, threshold_thousandths=threshold, weight= weight / cf.objective_scale)
+    
+    # 5. Number of violated off requests (violated_request.value() is a numpy array of True/False)
+    n_violated_requests = int(violated_request.value().sum())
 
     return {
         "status": model.status(),
@@ -111,6 +120,7 @@ def build_candidate_roster(cell_parameters, historical_rosters_all):
         "rosters": rosters,
         "results": results,
         "candidate_objective": candidate_objective,
+        "n_violated_requests": n_violated_requests,
     }
 
 

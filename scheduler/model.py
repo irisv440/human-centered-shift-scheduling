@@ -3,7 +3,8 @@
 model.py
 
 CPMpy roster model: decision variables, linkage of sleep to shifts, labour and staffing
-constraints, and the objective (sleep loss plus a penalty on expected short nights).
+constraints, off requests, and the objective (sleep loss plus a penalty on expected short nights
+and a penalty on violated off requests).
 
 @author: irisv
 """
@@ -25,21 +26,27 @@ from scheduler import cost_table
 from evaluator.estimate_lmm import estimate_cell_parameters_lmm
 
 
-def make_objective(early_linked, late_linked, night_linked, off_linked, difference_table_int, p_table_int): # [Changed 2026-11-16 18:24] off_linked added
+def make_objective(early_linked, late_linked, night_linked, off_linked, difference_table_int, p_table_int, violated_request, threshold, weight):
     """
-    Objective of the solver: same definition as compute_objective in evaluator/objective.py,
-    in whole numbers.
+    Objective of the solver: the definition of compute_objective in evaluator/objective.py,
+    in whole numbers, plus a penalty on violated off requests.
 
     Per worker i, summed over the 29 linked nights:
       sleep_loss[i]               = minus the sum of difference_table_int (minutes vs own Off night)
       short_nights_thousandths[i] = the sum of p_table_int (expected short nights x 1000, Off included)
       excess_thousandths[i]       = max(0, short_nights_thousandths[i] - threshold)
 
-    objective = objective_scale x sum of sleep_loss + objective_weight x sum of excess_thousandths
+    objective = objective_scale x sum of sleep_loss
+              + weight x sum of excess_thousandths
+              + objective_scale x request_penalty_minutes x number of violated off requests
 
-    Threshold, scale and weight come from the config. compute_objective uses the weight
-    objective_weight / objective_scale (0.36); the solver needs whole numbers, so here the whole
-    objective is multiplied by objective_scale instead. Divide by objective_scale to compare.
+    Threshold and weight are passed in by build_model (default: the config values); scale and
+      request_penalty_minutes come from the config. compute_objective uses the weight objective_weight / objective_scale (0.36); the solver needs whole numbers, so
+    here the whole objective is multiplied by objective_scale instead. Divide by objective_scale
+    to compare.
+
+    compute_objective does not (yet) contain the request penalty: solver objective / objective_scale
+    is therefore higher than compute_objective by request_penalty_minutes per violated request.
     """
     sleep_loss = []
 
@@ -66,10 +73,15 @@ def make_objective(early_linked, late_linked, night_linked, off_linked, differen
     excess_thousandths = []
     # Per worker: expected short nights (thousandths) above the threshold, never below 0
     for i in range(cf.n_workers):
-        excess_thousandths.append(cp.max([0, short_nights_thousandths[i] - cf.objective_threshold_thousandths]))
+        excess_thousandths.append(cp.max([0, short_nights_thousandths[i] - threshold]))
 
-    # [Changed 2026-11-16] 100 and 36 read from the config (same values) instead of typed in
-    objective = cf.objective_scale * cp.sum(sleep_loss) + cf.objective_weight * cp.sum(excess_thousandths)
+    # Objective scale from the config; threshold and weight passed in by build_model.
+    objective = cf.objective_scale * cp.sum(sleep_loss) + weight * cp.sum(excess_thousandths)
+
+    # Penalty on violated off requests: request_penalty_minutes per violated request,
+    # also multiplied by objective_scale (same unit as the rest of the objective)
+    request_penalty = cf.objective_scale * cf.request_penalty_minutes * cp.sum(violated_request)
+    objective = objective + request_penalty
 
     return objective
 
@@ -113,7 +125,7 @@ def add_linkage(model, early_linked, late_linked, night_linked, off_linked, shif
             model.add(cp.sum([early_linked[i,t], late_linked[i,t], night_linked[i,t], off_linked[i,t]]) == 1)
 
 
-def build_model(cell_parameters):
+def build_model(cell_parameters,threshold = cf.objective_threshold_thousandths, weight = cf.objective_weight):
     
     # cell_parameters: parameters of the fitted LMM, the first element of the output of
     # estimate_cell_parameters_lmm (fitted by the caller, so the LMM is fitted only once).
@@ -136,10 +148,6 @@ def build_model(cell_parameters):
     # 0 = off, 1 = early, 2 = late, 3 = night (cf.SHIFT_CODES)
     shifts = cp.intvar(0,3, shape=(cf.n_workers, cf.n_days), name = 'shifts')
     
-
-    # --> the decision variable 'assigned_team' supports (occasional) swaps:
-    # a worker's home_team stays the same, while the assigned team denotes which team the worker is assigned to during a particular day, e.g. because they asked
-    # for a swap.
     
     # assigned team: its values denote the real team a worker is assigned to at a particular day.
     assigned_team = cp.intvar(0,cf.n_teams-1, shape = (cf.n_workers, cf.n_days), name = 'assigned_team') # example: 4 teams
@@ -149,6 +157,7 @@ def build_model(cell_parameters):
     home_team_CP = cp.cpm_array(cf.HOME_TEAM)     # 30 workers
     shift_times_CP = cp.cpm_array(cf.SHIFT_TIMES)
     role_np = np.array(cf.ROLE)
+    requests_CP = cp.cpm_array(cf.requests) # 2026-11-18
     
     # 2.The model 
     
@@ -275,12 +284,16 @@ def build_model(cell_parameters):
                
     
     """
-    Constraint: On an Off-day assigned_team should equal home_team
+    Constraint: On an Off-day assigned_team should equal home_team,
+    except on a day with a day-off request (-4 in cf.requests).
+    On such a day the worker may also be off while the home team works: assigned_team is then
+    the team that is off that day (via the channeling), and a colleague fills in.
     """
-    
+
     for i in range(cf.n_workers):
         for t in range(cf.n_days):
-            model.add((shifts[i,t] == 0).implies(assigned_team[i,t] == home_team_CP[i]))
+            if cf.requests[i][t] != -4:
+                model.add((shifts[i,t] == 0).implies(assigned_team[i,t] == home_team_CP[i]))
     
     
     """
@@ -288,18 +301,24 @@ def build_model(cell_parameters):
     Shift on/off requests can be handled by putting constraints on assigned_team[i,t]
     
     """
-    # Planned, not yet implemented.
+    # Inspiration: https://developers.google.com/optimization/scheduling/employee_scheduling
+    violated_request = cp.boolvar(shape=(cf.n_workers, cf.n_days), name = 'violated_request') # 2026-11-18
+    
+    for i in range(cf.n_workers):
+        for t in range(cf.n_days):
+            model.add(violated_request[i,t] == ((requests_CP[i,t] == -4) & (shifts[i,t]!=0))\
+                      | (requests_CP[i,t] + shifts[i,t] == 0)   ) # request is violated when a worker requests not early (-1) but receives early (shifts[i,t]==1)
 
 
     """
     Objective: same definition as compute_objective in evaluator/objective.py (see make_objective)
     """
     # 5. Objective function
-    objective = make_objective(early_linked, late_linked, night_linked, off_linked, difference_table_int, p_table_int)
+    objective = make_objective(early_linked, late_linked, night_linked, off_linked, difference_table_int, p_table_int, violated_request, threshold, weight)
     model.minimize(objective)
 
     # 6. Return the model
-    return model, shifts, assigned_team, early_linked, late_linked, night_linked, off_linked, objective
+    return model, shifts, assigned_team, early_linked, late_linked, night_linked, off_linked, objective, violated_request
 
 if __name__ == "__main__":
     # Run from the project root:  python -m scheduler.model
@@ -316,7 +335,7 @@ if __name__ == "__main__":
     cell_parameters, result = estimate_cell_parameters_lmm(sleep_records)
     
     # Build the CPMpy model
-    model, shifts, assigned_team, early_linked, late_linked, night_linked, off_linked, objective = build_model(cell_parameters)
+    model, shifts, assigned_team, early_linked, late_linked, night_linked, off_linked, objective, violated_request = build_model(cell_parameters)
     
     # Solve
     model.solve()
@@ -331,4 +350,18 @@ if __name__ == "__main__":
         # Divided by objective_scale (100): same unit as compute_objective (minutes), so it can be
         # compared with the historical roster of cycle 1 (72235.36 with the same integer tables)
         print("objective / objective_scale:", objective.value() / cf.objective_scale)
+
+        # Off requests: one line per request (-5 = no request, skipped)
+        print()
+        print("Off requests (worker, day, request, assigned shift, violated):")
+        n_violated = 0
+        for i in range(cf.n_workers):
+            for t in range(cf.n_days):
+                if cf.requests[i][t] != -5:
+                    violated = bool(violated_request[i,t].value())
+                    if violated:
+                        n_violated += 1
+                    print(f"  W{i + 1:03d}  day {t}  request {cf.requests[i][t]}  shift {shifts[i,t].value()}  violated={violated}")
+        print(f"  Violated requests: {n_violated}")
+        
 
