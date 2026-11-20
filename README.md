@@ -31,6 +31,7 @@ human-centered-shift-scheduling/
 ├── api/
 │   ├── main.py                 # FastAPI app: queries and endpoints
 │   ├── db.py                   # shared database connection
+│   ├── roster_table.py         # text table of the historical and candidate roster, for GET /roster-comparison/table
 │   ├── .env.example            # database settings template
 │   └── sleep_metrics/
 │       ├── calculate_sri.py    # Sleep Regularity Index
@@ -189,8 +190,11 @@ Interactive documentation is then available at `http://127.0.0.1:8000/docs`.
 | `GET /shift-sleep-analysis/{worker_id}` | sleep per day in a shift block, short sleep per shift type, and difference vs Off |
 | `GET /sleep-regularity/{worker_id}` | Sleep Regularity Index (overall and per pair of consecutive days) |
 | `GET /roster-comparison` | historical roster (cycle 1) versus the candidate roster of the solver: both rosters, scores per worker, the difference, and how the result was computed (precomputed, see below) |
+| `GET /roster-comparison/table` | the same two rosters as a plain-text table: one letter per day, the historical roster above the candidate roster, and `^` under each day the solver changed |
 
 **`/roster-comparison` (version 1).** The endpoint serves a precomputed comparison of the historical roster and the candidate roster of the solver. Sending your own data is not implemented yet: the comparison is computed once by `python -m validation.export_roster_comparison` (solving takes one to two minutes) and saved as `data/roster_comparison.json`. The file records when and with which settings it was computed (solver status and time, threshold, weight, request penalty, machine). After a change in `scheduler/requirements_config.py`, run the script again.
+
+**`/roster-comparison/table`.** The same file, shown as a text table that can be opened directly in a browser (http://localhost:8000/roster-comparison/table). E = early, L = late, N = night, . = off. It shows at a glance what the solver changed: days off stay the same, and only shifts on working days are moved.
 
 **Planned for version 2.** Users can send their own roster in a request, and get it scored and compared with the historical roster.
 
@@ -235,6 +239,8 @@ python -m validation.export_roster_comparison
 `scheduler.model` solves the model and prints the candidate roster and its objective. `validation.compare_rosters` scores the historical roster (first 28-day cycle) and the candidate roster on the same route, checks the candidate against the historical patterns, and prints both objectives. `validation.export_roster_comparison` writes the same comparison to `data/roster_comparison.json`, which `GET /roster-comparison` serves. Solving takes about one to two minutes.
 
 **First result.** The candidate roster has a 28.6 % lower objective than the historical roster (51 534 versus 72 222). About two thirds of that gain comes from the penalty: the solver spreads the expected short nights more evenly across workers, while total sleep loss drops by 13 %. 18 of the 55 off requests are violated; 9 of these are day-off requests that cannot be granted (see Off requests). The solver's own objective is higher (52 602) because it also includes the penalty for violated requests, which the evaluator does not score.
+
+**Uneven shift-type mix.** The solver specialises. Every shift type has to be covered, so the solver gives night shifts to the workers for whom nights cost the least sleep compared with other workers, and does the same for early shifts. Some workers get a single shift type for the whole cycle (for example W012 only night shifts, W002 only early shifts; see `GET /roster-comparison/table`). A fair spread of shift types across workers is not part of the objective in version 1.
 
 **Known limitation.** The historical roster follows a single fixed pattern: every work block lasts exactly 7 days, and every change of shift type goes through days off. The candidate roster breaks that pattern for 17 of the 30 workers (shorter blocks, and changes such as late to night without a day off). For those patterns the score is an extrapolation: the sleep model has never seen them. Planned for v2: a second run restricted to the historical transitions, so that every change of shift type goes through a day off (a switch in `scheduler/requirements_config.py`), for comparison with the unrestricted run. If most of the gain remains, it comes from which worker gets which shift, not from new transitions such as early to late without a day off. Block lengths stay unrestricted, so shorter blocks remain an extrapolation. Forward rotation (early → late → night) is generally recommended in the shift-work literature, so the restricted run is a comparison, not a correction.
 

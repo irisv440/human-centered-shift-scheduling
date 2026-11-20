@@ -13,7 +13,9 @@ from pathlib import Path
 import psycopg2
 from psycopg2.extras import RealDictCursor 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import PlainTextResponse
 from db import get_connection
+from roster_table import build_roster_table
 
 import numpy as np
 from datetime import datetime, timedelta, time
@@ -501,23 +503,50 @@ def sleep_regularity(worker_id: str):
     }
 )
 def get_roster_comparison():
-      """
-      Historical roster (cycle 1) versus the candidate roster of the CPMpy model.
-      Serves a precomputed file: the solver takes 1-2 minutes and its result does not
-      depend on the request, so it is computed once by validation/export_roster_comparison.py.
-      """
-      # File missing: the export script has not been run yet
-      if not ROSTER_COMPARISON_PATH.exists():
-          raise HTTPException(
-              status_code=404,
-              detail="Roster comparison not found. Run: python -m validation.export_roster_comparison"
-          )
+    """
+    Historical roster (cycle 1) versus the candidate roster of the CPMpy model.
+    Serves a precomputed file: the solver takes 1-2 minutes and its result does not
+    depend on the request, so it is computed once by validation/export_roster_comparison.py.
+    """
+    # File missing: the export script has not been run yet
+    if not ROSTER_COMPARISON_PATH.exists():
+        raise HTTPException(
+            status_code=404,
+            detail="Roster comparison not found. Run: python -m validation.export_roster_comparison"
+        )
 
-      # Read the JSON file; parse_float rounds every decimal number to 3 decimals while reading
-      with open(ROSTER_COMPARISON_PATH, encoding="utf-8") as file:
-          comparison = json.load(file, parse_float=lambda x: round(float(x), 3))
+    # Read the JSON file; parse_float rounds every decimal number to 3 decimals while reading
+    with open(ROSTER_COMPARISON_PATH, encoding="utf-8") as file:
+        comparison = json.load(file, parse_float=lambda x: round(float(x), 3))
 
-      return comparison
+    return comparison
+
+
+@app.get(
+    "/roster-comparison/table",
+    response_class=PlainTextResponse, # PlainText
+    responses={
+        404: {"description": "Roster Comparison file not found."}
+    }
+)
+def get_roster_comparison_table():
+    """
+    The same comparison as GET /roster-comparison, shown as a readable text table:
+    one letter per day, historical roster above the candidate roster, "^" under each changed day.
+    """
+    # File missing: the export script has not been run yet
+    if not ROSTER_COMPARISON_PATH.exists():
+        raise HTTPException(
+            status_code=404,
+            detail="Roster comparison not found. Run: python -m validation.export_roster_comparison"
+        )
+
+    # Only the rosters are needed here, so no rounding of decimal numbers
+    with open(ROSTER_COMPARISON_PATH, encoding="utf-8") as file:
+        comparison = json.load(file)
+
+    table = build_roster_table(comparison["baseline"]["rosters"], comparison["candidate"]["rosters"])
+    return table
 
 # POST /evaluate-roster
 # Planned for version 2       
